@@ -18,7 +18,6 @@ const allGuesses = [];
 // Print letter on current guess row
 function showChar() {
   const boxes = guessRows[currentGuessRow].querySelectorAll('.char');
-  console.log(guessRows[currentGuessRow]);
   boxes.forEach ((box, i) => {
     box.textContent = currentGuess[i];
   })
@@ -29,13 +28,20 @@ function checkGuess() {
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
 
   answerArray.forEach((ans, j) => {
-    // Test each guess box against answer array
+    console.log(answerArray);
+    console.log(answeredBoxes[j].textContent);
+    // Test if guess is included anywhere
+    if (answerArray.includes(answeredBoxes[j].textContent)) {
+      answeredBoxes[j].classList.add('position');
+    }
+    
+    // Test guess matches to answer
     if (ans == answeredBoxes[j].textContent) {
       answeredBoxes[j].classList.add('correct');
       correctGuesses++;
     } else if (ans != answeredBoxes[j].textContent) {
       answeredBoxes[j].classList.add('wrong');
-    }
+    } 
   })
 
   // If all correct
@@ -47,7 +53,6 @@ function checkGuess() {
     currentGuessRow++;
     // Empty your guess array
     currentGuess.length = 0;
-    console.log(currentGuessRow);
     return;
   }
 
@@ -65,7 +70,6 @@ keys.forEach((k) => {
     } else if (k.dataset.key == 'enter') {
       // Submit currentGuess
       allGuesses.push(currentGuess);
-      console.log(allGuesses)
       checkGuess();
     } else if (k.dataset.key == 'del') {
       // Check if row has letters to delete
