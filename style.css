@@ -149,9 +149,9 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
   background-color: var(--clr-lighter-gray);
-  padding: .85rem .5rem;
+  padding: .85rem .35rem;
   cursor: pointer;
-  min-width: 1.45rem;
+  min-width: 1.55rem;
   text-align: center;
   border-radius: 3px;
   display: flex;
