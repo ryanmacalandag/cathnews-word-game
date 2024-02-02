@@ -79,7 +79,7 @@ body {
 #game.container {
   max-width: 480px;
   padding: 1rem;
-  gap: 2rem;
+  gap: 1rem;
   overflow: scroll;
   justify-content: center;
   height: 100dvh;
@@ -110,13 +110,13 @@ body {
   border: 2px solid var(--clr-light-gray);
   width: 3.35rem;
   border-radius: 5px;
-  height: 3.7rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
   font-weight: 700;
-  font-size: 2.4rem;  
+  font-size: 2rem;  
 }
 
 .char.wrong {
@@ -141,7 +141,7 @@ body {
 
 #keyboard {
   flex: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .key {
@@ -149,7 +149,7 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   background-color: var(--clr-lighter-gray);
-  padding: .85rem .35rem;
+  padding: .65rem .35rem;
   cursor: pointer;
   width: 1.7rem;
   text-align: center;
@@ -169,7 +169,7 @@ body {
   color: var(--clr-white);
   padding-left: .65rem;
   padding-right: .65rem;
-  font-size: .8rem;
+  font-size: .6rem;
 }
 
 .key.enter:hover, .key.delete:hover {
@@ -177,7 +177,7 @@ body {
 }
 
 .key.delete {
-  font-size: 1.2rem;
+  font-size: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
 }
