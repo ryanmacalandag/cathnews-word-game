@@ -80,7 +80,9 @@ body {
   max-width: 480px;
   padding: 1rem;
   gap: 2rem;
-  overflow: scroll
+  overflow: scroll;
+  justify-content: center;
+  height: 100dvh;
 }
 
 .column {
@@ -99,44 +101,55 @@ body {
 
 /* Guess section */
 
+#guesses {
+  flex: 1;
+  justify-content: center;
+}
+
 .guess .char {
   border: 2px solid var(--clr-light-gray);
-  width: 2.65rem;
+  width: 3.35rem;
   border-radius: 5px;
-  height: 3.5rem;
+  height: 3.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
   font-weight: 700;
-  font-size: 2rem;  
+  font-size: 2.4rem;  
 }
 
 .char.wrong {
-  background-color: var(--clr-wrong);
+  background-color: var(--clr-wrong) !important;
   border-color: var(--clr-wrong);
   color: var(--clr-white);
 }
 
 .char.position {
-  background-color: var(--clr-position);
+  background-color: var(--clr-position) !important;
   border-color: var(--clr-position);
   color: var(--clr-white);
 }
 
 .char.correct {
-  background-color: var(--clr-correct);
+  background-color: var(--clr-correct) !important;
   border-color: var(--clr-correct);
   color: var(--clr-white);
 }
 
 /* Keyboard section */
 
+#keyboard {
+  flex: 0;
+  margin-bottom: 2rem;
+}
+
 .key {
   text-transform: uppercase;
   font-size: 1.2rem;
+  font-weight: 600;
   background-color: var(--clr-lighter-gray);
-  padding: .5rem .5rem;
+  padding: .85rem .5rem;
   cursor: pointer;
   min-width: 1.45rem;
   text-align: center;
@@ -151,13 +164,30 @@ body {
   background-color: var(--clr-light-gray);
 }
 
-.key.hi {
+.key.enter, .key.delete {
   background-color: var(--clr-gray);
   color: var(--clr-white);
   padding-left: .65rem;
   padding-right: .65rem;
+  font-size: .8rem;
 }
 
-.key.hi:hover {
+.key.enter:hover, .key.delete:hover {
   background-color: var(--clr-dark-gray);
+}
+
+.key.delete {
+  font-size: 1.1rem;
+}
+
+.key.enter {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  letter-spacing: 1px;
+}
+
+.key.selected {
+  background-color: var(--clr-wrong) !important;
+  border-color: var(--clr-wrong);
+  color: var(--clr-white);
 }
