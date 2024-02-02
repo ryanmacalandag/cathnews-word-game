@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 * {
@@ -10,8 +10,8 @@
 :root {
 
   --fnt-logo: "Pacifico", sans-serif;
-  --fnt-headings: "Red Hat Display", sans-serif;
-  --fnt-body: "Red Hat Display", sans-serif;
+  --fnt-headings: "Roboto Condensed", sans-serif;
+  --fnt-body: "Roboto Condensed", sans-serif;
 
   --clr-primary: hsl(107, 35%, 19%);
   --clr-primary-light: hsl(107, 31%, 42%);
@@ -26,6 +26,10 @@
   --clr-gray: hsl(120, 1%, 29%);
   --clr-dark-gray: hsl(180, 1%, 18%);
   --clr-black: hsl(0, 0%, 9%);
+
+  --clr-wrong: var(--clr-light-gray);
+  --clr-position: hsl(50, 77%, 47%);
+  --clr-correct: hsl(129, 59%, 28%);
 }
 
 a, a:active {
@@ -55,7 +59,7 @@ img {
 
 html {
   font-family: var(--fnt-body);
-  font-size: 16px;
+  font-size: 18px;
 }
 
 body {
@@ -75,7 +79,8 @@ body {
 #game.container {
   max-width: 480px;
   padding: 1rem;
-  gap: .65rem
+  gap: 2rem;
+  overflow: scroll
 }
 
 .column {
@@ -94,30 +99,65 @@ body {
 
 /* Guess section */
 
-.guess input {
-  font-size: 2rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  width: 2.8rem;
-  padding: .15rem .05rem;
-  text-align: center;
-  background-color: transparent;
+.guess .char {
   border: 2px solid var(--clr-light-gray);
-  border-radius: .3rem;
+  width: 2.65rem;
+  border-radius: 5px;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 2rem;  
+}
+
+.char.wrong {
+  background-color: var(--clr-wrong);
+  border-color: var(--clr-wrong);
+  color: var(--clr-white);
+}
+
+.char.position {
+  background-color: var(--clr-position);
+  border-color: var(--clr-position);
+  color: var(--clr-white);
+}
+
+.char.correct {
+  background-color: var(--clr-correct);
+  border-color: var(--clr-correct);
+  color: var(--clr-white);
 }
 
 /* Keyboard section */
 
 .key {
   text-transform: uppercase;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   background-color: var(--clr-lighter-gray);
-  padding: .35rem .65rem;
+  padding: .5rem .5rem;
   cursor: pointer;
-  min-width: 2.35rem;
+  min-width: 1.45rem;
   text-align: center;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .2s;
 }
 
 .key:hover {
   background-color: var(--clr-light-gray);
+}
+
+.key.hi {
+  background-color: var(--clr-gray);
+  color: var(--clr-white);
+  padding-left: .65rem;
+  padding-right: .65rem;
+}
+
+.key.hi:hover {
+  background-color: var(--clr-dark-gray);
 }
