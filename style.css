@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+
+  --fnt-logo: "Pacifico", sans-serif;
+  --fnt-headings: "Red Hat Display", sans-serif;
+  --fnt-body: "Red Hat Display", sans-serif;
+
+  --clr-primary: hsl(107, 35%, 19%);
+  --clr-primary-light: hsl(107, 31%, 42%);
+  --clr-primary-lighter: hsl(107, 31%, 70%);
+  --clr-primary-lightest: hsl(76, 27%, 89%);
+  --clr-primary-dark: hsl(106, 26%, 16%);
+  --clr-primary-darker: hsl(120, 2%, 17%);
+
+  --clr-white: hsl(120, 6%, 97%);
+  --clr-light-gray: hsl(0, 0%, 75%);
+  --clr-lighter-gray: hsl(0, 0%, 90%);
+  --clr-gray: hsl(120, 1%, 29%);
+  --clr-dark-gray: hsl(180, 1%, 18%);
+  --clr-black: hsl(0, 0%, 9%);
+}
+
+a, a:active {
+  color: var(--clr-primary-light);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--clr-primary);
+}
+
+.dark a {
+  color: var(--clr-primary-lightest);
+}
+
+.dark a:hover {
+  color: var(--clr-primary-lighter);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* DOM */
+
+html {
+  font-family: var(--fnt-body);
+  font-size: 16px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100dvh;
+  background-color: var(--clr-white);
+  color: var(--clr-primary-darker);
+  position: relative;
+}
+
+/* Scaffolding */
+
+#game.container {
+  max-width: 480px;
+  padding: 1rem;
+  gap: .65rem
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: .25rem;
+}
+
+/* Guess section */
+
+.guess input {
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  width: 2.8rem;
+  padding: .15rem .05rem;
+  text-align: center;
+  background-color: transparent;
+  border: 2px solid var(--clr-light-gray);
+  border-radius: .3rem;
+}
+
+/* Keyboard section */
+
+
+
+.key {
+  text-transform: uppercase;
+  font-size: 1.15rem;
+  background-color: var(--clr-lighter-gray);
+  padding: .35rem .65rem;
+  cursor: pointer;
+  min-width: 2.35rem;
+  text-align: center;
+}
+
+.key:hover {
+  background-color: var(--clr-light-gray);
+}
