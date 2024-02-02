@@ -17,11 +17,30 @@
   <!-- Game container -->
   <div id="game" class="container column">
 
-    <div id="notif" class="hide"></div>
-
     <!-- Guess boxes -->
     <section id="guesses" class="column">
 
+      <div id="guess1" class="guess row">
+        <span class="char wrong">G</span>
+        <span class="char wrong">U</span>
+        <span class="char position">E</span>
+        <span class="char wrong">S</span>
+        <span class="char wrong">S</span>
+      </div>
+      <div id="guess1" class="guess row">
+        <span class="char wrong">H</span>
+        <span class="char correct">E</span>
+        <span class="char correct">A</span>
+        <span class="char wrong">R</span>
+        <span class="char wrong">D</span>
+      </div>
+      <div id="guess1" class="guess row">
+        <span class="char correct">L</span>
+        <span class="char correct">E</span>
+        <span class="char correct">A</span>
+        <span class="char wrong">C</span>
+        <span class="char wrong">H</span>
+      </div>
       <div id="guess1" class="guess row">
         <span class="char"></span>
         <span class="char"></span>
@@ -29,35 +48,14 @@
         <span class="char"></span>
         <span class="char"></span>
       </div>
-      <div id="guess2" class="guess row">
+      <div id="guess1" class="guess row">
         <span class="char"></span>
         <span class="char"></span>
         <span class="char"></span>
         <span class="char"></span>
         <span class="char"></span>
       </div>
-      <div id="guess3" class="guess row">
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-      </div>
-      <div id="guess4" class="guess row">
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-      </div>
-      <div id="guess5" class="guess row">
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-        <span class="char"></span>
-      </div>
-      <div id="guess6" class="guess row">
+      <div id="guess1" class="guess row">
         <span class="char"></span>
         <span class="char"></span>
         <span class="char"></span>
@@ -73,11 +71,11 @@
       <div id="keys1" class="row">
         <div data-key="q" class="key">Q</div>
         <div data-key="w" class="key">W</div>
-        <div data-key="e" class="key">E</div>
-        <div data-key="r" class="key">R</div>
+        <div data-key="e`" class="key selected">E</div>
+        <div data-key="r" class="key selected">R</div>
         <div data-key="t" class="key">T</div>
         <div data-key="y" class="key">Y</div>
-        <div data-key="u" class="key">U</div>
+        <div data-key="u" class="key selected">U</div>
         <div data-key="i" class="key">I</div>
         <div data-key="o" class="key">O</div>
         <div data-key="p" class="key">P</div>
@@ -85,21 +83,21 @@
 
       <div id="keys2" class="row">
         <div data-key="a" class="key">A</div>
-        <div data-key="s" class="key">S</div>
-        <div data-key="d" class="key">D</div>
+        <div data-key="s" class="key selected">S</div>
+        <div data-key="d" class="key selected">D</div>
         <div data-key="f" class="key">F</div>
-        <div data-key="g" class="key">G</div>
-        <div data-key="h" class="key">H</div>
+        <div data-key="g" class="key selected">G</div>
+        <div data-key="h" class="key selected">H</div>
         <div data-key="j" class="key">J</div>
         <div data-key="k" class="key">K</div>
-        <div data-key="l" class="key">L</div>
+        <div data-key="l" class="key selected">L</div>
       </div>
 
       <div id="keys3" class="row">
         <div data-key="enter" class="key enter">ENTER</div>
         <div data-key="z" class="key">Z</div>
         <div data-key="x" class="key">X</div>
-        <div data-key="c" class="key">C</div>
+        <div data-key="c" class="key selected">C</div>
         <div data-key="v" class="key">V</div>
         <div data-key="b" class="key">B</div>
         <div data-key="n" class="key">N</div>

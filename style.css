@@ -80,7 +80,6 @@ body {
   max-width: 480px;
   padding: 1rem;
   gap: 1rem;
-  overflow: scroll;
   justify-content: center;
   height: 100dvh;
 }
@@ -157,7 +156,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: .2s;
+  transition: .1s;
 }
 
 .key:hover {
@@ -179,7 +178,7 @@ body {
 .key.delete {
   font-size: 1rem;
   padding-left: 1rem;
-  padding-right: 1rem;
+  padding-right: 1.1rem;
 }
 
 .key.enter {
@@ -193,4 +192,18 @@ body {
   background-color: var(--clr-wrong) !important;
   border-color: var(--clr-wrong);
   color: var(--clr-white);
+}
+
+/* Notification */
+
+#notif {
+  position: absolute;
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+  padding: 1rem 3rem;
+  border-radius: .5rem;
+}
+
+.hide {
+  display: none;
 }
