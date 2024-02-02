@@ -15,6 +15,14 @@ const currentGuess = [];
 // Guess list
 const allGuesses = [];
 
+// Validate guess 
+async function validGuess(word) {
+  // Get list of valid words
+  const response = await fetch("./valid.json");
+  const validWords = await response.json();
+  return await validWords.includes(word);
+}
+
 // Print letter on current guess row
 function showChar() {
   const boxes = guessRows[currentGuessRow].querySelectorAll('.char');
@@ -28,8 +36,7 @@ function checkGuess() {
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
 
   answerArray.forEach((ans, j) => {
-    console.log(answerArray);
-    console.log(answeredBoxes[j].textContent);
+
     // Test if guess is included anywhere
     if (answerArray.includes(answeredBoxes[j].textContent)) {
       answeredBoxes[j].classList.add('position');
@@ -68,9 +75,14 @@ keys.forEach((k) => {
       currentGuess.push(k.dataset.key)
       showChar();
     } else if (k.dataset.key == 'enter') {
-      // Submit currentGuess
-      allGuesses.push(currentGuess);
-      checkGuess();
+      // Check if word is valid
+      let validity = validGuess(currentGuess.join(''));
+      console.log(validity)
+      if (validity) {
+        // Submit currentGuess
+        console.log('hey')
+        checkGuess();
+      }
     } else if (k.dataset.key == 'del') {
       // Check if row has letters to delete
       // Pop last letter
