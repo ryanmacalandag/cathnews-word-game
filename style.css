@@ -146,12 +146,12 @@ body {
 
 .key {
   text-transform: uppercase;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   background-color: var(--clr-lighter-gray);
   padding: .85rem .35rem;
   cursor: pointer;
-  min-width: 1.55rem;
+  width: 1.7rem;
   text-align: center;
   border-radius: 3px;
   display: flex;
@@ -177,13 +177,16 @@ body {
 }
 
 .key.delete {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .key.enter {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: .65rem;
+  padding-right: .65rem;
   letter-spacing: 1px;
+  width: fit-content;
 }
 
 .key.selected {
