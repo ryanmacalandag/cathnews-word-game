@@ -23,14 +23,6 @@ function showChar() {
   })
 }
 
-// Validate submitted guess 
-async function validateGuess(word) {
-  // Get list of valid words
-  const response = await fetch("./valid.json");
-  const validWords = await response.json();
-  return await validWords.includes(word);
-}
-
 // Check submitted guess
 function checkGuess() {
   // Counter for number of correct letters
@@ -85,9 +77,7 @@ keys.forEach((k) => {
       currentGuess.push(k.dataset.key)
       showChar();
     } else if (k.dataset.key == 'enter') {
-      // Check if word is valid
-      let validity = validateGuess(currentGuess.join(''));
-      console.log(validity)
+      let validity = true;
       if (validity) {
         // Submit currentGuess
         console.log('hey')
@@ -97,7 +87,7 @@ keys.forEach((k) => {
       // Check if row has letters to delete
       // Pop last letter
       currentGuess.pop();
-      showChar();
+      showChar( );
     }
 
   });
