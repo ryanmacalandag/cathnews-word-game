@@ -219,16 +219,27 @@ body {
 #notif button {
   border: none;
   background-color: var(--clr-primary-lightest);
-  padding: 1rem 3rem;
+  padding: 1rem 3rem 1rem 4rem;
   border-radius: .5rem;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--clr-primary);
   letter-spacing: 1px;
   transition: 200ms ease;
+  position: relative;
 }
 
 #notif button:hover {
   background-color: var(--clr-primary-light);
   color: var(--clr-white);
+}
+
+#notif button::before {
+  content: url('./refresh.svg');
+  position: absolute;
+  left: 2.25rem;
+  top: 53%;
+  transform: translateY(-50%);
+  color: var(--clr-primary-light);
+  filter: opacity(.7);
 }

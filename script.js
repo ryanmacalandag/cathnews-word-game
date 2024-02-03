@@ -94,6 +94,14 @@ function notifCentre(message) {
       resetGame();
     })
     notif.classList.remove('hide');
+  } else if (message == 'fail') {
+    notifMessage.textContent = "Sorry, you have no more tries left!";
+    notifButton.textContent = 'Start over';
+    notifButton.addEventListener('click', () => {
+      notif.classList.add('hide');
+      resetGame();
+    })
+    notif.classList.remove('hide');
   }
 }
 
@@ -102,6 +110,8 @@ function notifCentre(message) {
 function checkGuess() {
   // Counter for number of correct letters
   let correctGuesses = 0;
+
+  console.log(currentGuessRow)
   
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
 
@@ -130,6 +140,12 @@ function checkGuess() {
     currentGuessRow++;
     // Empty your guess array
     currentGuess.length = 0;
+  }
+
+  // Check if currentGessRow is 6 (game over)
+  if (currentGuessRow >= 6) {
+    // FAIL
+    notifCentre('fail');
   }
 
 } //checkguess
