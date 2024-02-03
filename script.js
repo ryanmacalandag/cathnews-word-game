@@ -8,7 +8,7 @@ const notifMessage = document.querySelector('#notif .notif-message');
 const notifButton = document.querySelector('#notif .notif-button');
 
 // Sample answer word
-const tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole'];
+const tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole', 'Zumic', 'heart', 'creep', 'donor', 'siker', 'civil', 'clift', 'gamma', 'flamy', 'curve', 'palmy', 'weigh', 'cramp', 'inkle', 'skeet', 'crock', 'slate', 'twirl' ];
 const random_item = (items) => items[Math.floor(Math.random() * items.length)];
 let answer = random_item(tempAnswers);
 console.log(answer);
@@ -134,7 +134,7 @@ function checkGuess() {
 
 } //checkguess
 
-// Capture keyboard clicks
+// Capture on-screen keyboard
 keys.forEach((k) => {
   k.addEventListener('click', (e) => {
     
