@@ -8,7 +8,10 @@ const notifMessage = document.querySelector('#notif .notif-message');
 const notifButton = document.querySelector('#notif .notif-button');
 
 // Sample answer word
-const answer = "leave";
+const tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole'];
+const random_item = (items) => items[Math.floor(Math.random() * items.length)];
+let answer = random_item(tempAnswers);
+console.log(answer);
 const answerArray = answer.split("");
 
 // Valid keys
@@ -56,6 +59,8 @@ function resetGame() {
   keys.forEach((key) => {
     key.classList.remove('used');
   })
+
+  location.reload();
 
   showChar();
   styleKeys();
