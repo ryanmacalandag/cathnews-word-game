@@ -14,6 +14,19 @@ let answer = random_item(tempAnswers);
 console.log(answer);
 const answerArray = answer.split("");
 
+// Load valid-words.json first time
+async function loadValidWords() {
+  const response = await fetch('./valid-words.json');
+  const data = await response.json();
+  return data;
+};
+
+async function validateGuess(guess) {
+  const validWords = await loadValidWords();
+  console.log(validWords.includes(guess))
+  return validWords.includes(guess);
+}
+
 // Valid keys
 const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 'm', 'n', 'o', 'p', 'q', 'r',  's', 't', 'u', 'v', 'w', 'x',
@@ -43,7 +56,6 @@ function showChar() {
 
 // Reset all game counters
 function resetGame() {
-  console.log('hey')
   currentGuessRow = 0;
   currentGuess = [];
   allGuesses = [];
@@ -102,6 +114,14 @@ function notifCentre(message) {
       resetGame();
     })
     notif.classList.remove('hide');
+  } else if (message == 'invalid') {
+    notifMessage.textContent = "Invalid word is not in the dictionary!";
+    notifButton.textContent = 'Try again';
+    notifButton.addEventListener('click', () => {
+      notif.classList.add('hide');
+      return;
+    })
+    notif.classList.remove('hide');
   }
 }
 
@@ -110,8 +130,6 @@ function notifCentre(message) {
 function checkGuess() {
   // Counter for number of correct letters
   let correctGuesses = 0;
-
-  console.log(currentGuessRow)
   
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
 
@@ -159,13 +177,16 @@ keys.forEach((k) => {
       currentGuess.push(k.dataset.key)
       showChar();
     } else if (k.dataset.key == 'enter') {
-      let validity = true;
-
-      if (validity) {
-        // Submit and style currentGuess
-        styleKeys();
-        checkGuess();
-      }
+      let guessString = currentGuess.join("");
+      validateGuess(guessString).then((res) => {
+        if (res) {
+          // Submit and style currentGuess
+          styleKeys();
+          checkGuess(); 
+        } else {
+          notifCentre('invalid');
+        }
+      });
     } else if (k.dataset.key == 'del') {
       // Check if row has letters to delete
       // Pop last letter
@@ -182,8 +203,16 @@ document.addEventListener('keyup', (e) => {
     currentGuess.push(e.key)
     showChar();
   } else if (e.key == 'Enter') {
-    styleKeys();
-    checkGuess();
+    let guessString = currentGuess.join("");
+    validateGuess(guessString).then((res) => {
+      if (res) {
+        // Submit and style currentGuess
+        styleKeys();
+        checkGuess(); 
+      } else {
+        notifCentre('invalid');
+      }
+    });
   } else if (e.key == 'Backspace') {
     currentGuess.pop();
     showChar( );

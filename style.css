@@ -216,6 +216,10 @@ body {
   display: none;
 }
 
+#notif p {
+  text-align: center;
+}
+
 #notif button {
   border: none;
   background-color: var(--clr-primary-lightest);
