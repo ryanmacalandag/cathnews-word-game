@@ -1,23 +1,15 @@
 const game = document.querySelector('#game');
 const guessRows = document.querySelectorAll('.guess.row');
-const notif = document.querySelector('#notif');
+const guessBoxes = document.querySelectorAll('.guess.row .char');
 const keys = document.querySelectorAll('.key');
+
+const notif = document.querySelector('#notif');
+const notifMessage = document.querySelector('#notif .notif-message');
+const notifButton = document.querySelector('#notif .notif-button');
 
 // Sample answer word
 const answer = "leave";
 const answerArray = answer.split("");
-
-// Counters 
-let currentGuessRow = 0;
-
-// Submitted word
-const currentGuess = [];
-
-// List of submitted words
-const allGuesses = [];
-
-// List of keys used
-const usedKeys = [];
 
 // Valid keys
 const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -26,12 +18,47 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 'M', 'N', 'O', 'P', 'Q', 'R',  'S', 'T', 'U', 'V', 'W', 'X',
 'Y', 'Z' ]
 
+// Counters 
+let currentGuessRow = 0;
+
+// Submitted word
+let currentGuess = [];
+
+// List of submitted words
+let allGuesses = [];
+
+// List of keys used
+let usedKeys = [];
+
 // Print letter on current guess row
 function showChar() {
   const boxes = guessRows[currentGuessRow].querySelectorAll('.char');
   boxes.forEach ((box, i) => {
     box.textContent = currentGuess[i];
   })
+}
+
+// Reset all game counters
+function resetGame() {
+  console.log('hey')
+  currentGuessRow = 0;
+  currentGuess = [];
+  allGuesses = [];
+  usedKeys = [];
+
+  guessBoxes.forEach((box) => {
+    box.classList.remove('correct');
+    box.classList.remove('wrong');
+    box.classList.remove('position');
+    box.textContent = "";
+  })
+
+  keys.forEach((key) => {
+    key.classList.remove('used');
+  })
+
+  showChar();
+  styleKeys();
 }
 
 // Style used keys based on currentguess array
@@ -51,6 +78,20 @@ function styleKeys() {
     } 
   })
 }
+
+// Handle notifs
+function notifCentre(message) {
+  if (message == 'success') {
+    notifMessage.textContent = "You guessed the word in " + (currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!" );
+    notifButton.textContent = 'Play again';
+    notifButton.addEventListener('click', () => {
+      notif.classList.add('hide');
+      resetGame();
+    })
+    notif.classList.remove('hide');
+  }
+}
+
 
 // Check submitted guess
 function checkGuess() {
@@ -78,18 +119,15 @@ function checkGuess() {
   // Check if all 5 letters are correct
   if (correctGuesses == 5) {
     // SUCCESS - show success notification
-    notif.textContent = "You guessed the word in " + (currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!" );
-    notif.classList.toggle('hide');
-    return;
+    notifCentre('success');
   } else {
     // Not all letter are correct, move to next row
     currentGuessRow++;
     // Empty your guess array
     currentGuess.length = 0;
-    return;
   }
 
-}
+} //checkguess
 
 // Capture keyboard clicks
 keys.forEach((k) => {

@@ -141,6 +141,7 @@ body {
 #keyboard {
   flex: 0;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .key {
@@ -200,10 +201,34 @@ body {
   position: absolute;
   background-color: var(--clr-primary);
   color: var(--clr-white);
-  padding: 1rem 3rem;
+  padding: 2rem 3rem;
   border-radius: .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.hide {
+#notif.hide {
   display: none;
+}
+
+#notif button {
+  border: none;
+  background-color: var(--clr-primary-lightest);
+  padding: 1rem 3rem;
+  border-radius: .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--clr-primary);
+  letter-spacing: 1px;
+  transition: 200ms ease;
+}
+
+#notif button:hover {
+  background-color: var(--clr-primary-light);
+  color: var(--clr-white);
 }
