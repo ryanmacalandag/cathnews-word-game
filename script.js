@@ -1,6 +1,7 @@
 const game = document.querySelector('#game');
 const guessRows = document.querySelectorAll('.guess.row');
 const notif = document.querySelector('#notif');
+const keys = document.querySelectorAll('.key');
 
 // Sample answer word
 const answer = "leave";
@@ -12,14 +13,42 @@ let currentGuessRow = 0;
 // Submitted word
 const currentGuess = [];
 
-// Guess list
+// List of submitted words
 const allGuesses = [];
+
+// List of keys used
+const usedKeys = [];
+
+// Valid keys
+const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+'m', 'n', 'o', 'p', 'q', 'r',  's', 't', 'u', 'v', 'w', 'x',
+'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+'M', 'N', 'O', 'P', 'Q', 'R',  'S', 'T', 'U', 'V', 'W', 'X',
+'Y', 'Z' ]
 
 // Print letter on current guess row
 function showChar() {
   const boxes = guessRows[currentGuessRow].querySelectorAll('.char');
   boxes.forEach ((box, i) => {
     box.textContent = currentGuess[i];
+  })
+}
+
+// Style used keys based on currentguess array
+function styleKeys() {
+
+  // Go through currentGuess array
+  currentGuess.forEach((char) => {
+    if (!(usedKeys.includes(char))) {
+      usedKeys.push(char);
+    }
+  });
+
+  // Actual styling
+  keys.forEach((key) => {
+    if (usedKeys.includes(key.dataset.key)) {
+      key.classList.add('used');
+    } 
   })
 }
 
@@ -63,14 +92,8 @@ function checkGuess() {
 }
 
 // Capture keyboard clicks
-const keys = document.querySelectorAll('.key');
 keys.forEach((k) => {
   k.addEventListener('click', (e) => {
-
-    // Style key as used but only after validating word
-    if (k.dataset.key != 'enter' && k.dataset.key != 'del') {
-      k.classList.add('used');
-    }
     
     // Send letter to current guess row
     if (currentGuess.length < 5 && !(k.dataset.key === 'enter') && !(k.dataset.key === 'del')) {
@@ -78,17 +101,32 @@ keys.forEach((k) => {
       showChar();
     } else if (k.dataset.key == 'enter') {
       let validity = true;
+
       if (validity) {
-        // Submit currentGuess
-        console.log('hey')
+        // Submit and style currentGuess
+        styleKeys();
         checkGuess();
       }
     } else if (k.dataset.key == 'del') {
       // Check if row has letters to delete
       // Pop last letter
       currentGuess.pop();
-      showChar( );
+      showChar();
     }
 
   });
 });
+
+// Keyboard type
+document.addEventListener('keyup', (e) => {
+  if (currentGuess.length < 5 && validKeys.includes(e.key)) {
+    currentGuess.push(e.key)
+    showChar();
+  } else if (e.key == 'Enter') {
+    styleKeys();
+    checkGuess();
+  } else if (e.key == 'Backspace') {
+    currentGuess.pop();
+    showChar( );
+  }
+})
