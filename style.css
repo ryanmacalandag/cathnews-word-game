@@ -65,13 +65,18 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   min-height: 100dvh;
   background-color: var(--clr-white);
   color: var(--clr-primary-darker);
   position: relative;
+}
+
+body.dark {
+  background-color: var(--clr-primary-darker);
+  color: var(--clr-);
 }
 
 /* Scaffolding */
@@ -98,11 +103,42 @@ body {
   gap: .25rem;
 }
 
+/* Header section */
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  padding: .85rem 1.35rem;
+  background-color: var(--clr-primary-darker);
+  color: var(--clr-primary-lightest);
+}
+
+.logo {
+  font-size: 1.15rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+}
+
+
+/* Game section */
+
+#game {
+  flex-grow: 1;
+}
+
 /* Guess section */
 
 #guesses {
   flex: 1;
   justify-content: center;
+}
+
+.guess.current .char {
+  border: 3px solid var(--clr-gray);
 }
 
 .guess .char {

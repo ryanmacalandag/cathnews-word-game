@@ -78,6 +78,16 @@ function resetGame() {
   styleKeys();
 }
 
+// Style current row
+function styleCurrentRow() {
+  guessRows.forEach((row, i) => {
+    if (currentGuessRow == i) {
+      row.classList.add('current');
+    } else row.classList.remove('current');
+    return true;
+  })
+}
+
 // Style used keys based on currentguess array
 function styleKeys() {
 
@@ -98,8 +108,9 @@ function styleKeys() {
 
 // Handle notifs
 function notifCentre(message) {
+
   if (message == 'success') {
-    notifMessage.textContent = "You guessed the word in " + (currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!" );
+    notifMessage.innerHTML = "You guessed the word in " + (currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!" );
     notifButton.textContent = 'Play again';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
@@ -156,6 +167,8 @@ function checkGuess() {
   } else {
     // Not all letter are correct, move to next row
     currentGuessRow++;
+    // Highlight next row
+    styleCurrentRow();
     // Empty your guess array
     currentGuess.length = 0;
   }
@@ -168,15 +181,55 @@ function checkGuess() {
 
 } //checkguess
 
-// Capture on-screen keyboard
-keys.forEach((k) => {
-  k.addEventListener('click', (e) => {
-    
-    // Send letter to current guess row
-    if (currentGuess.length < 5 && !(k.dataset.key === 'enter') && !(k.dataset.key === 'del')) {
-      currentGuess.push(k.dataset.key)
+// GAME START
+
+function startGame() {
+
+  styleCurrentRow();
+
+  // Capture on-screen keyboard
+  keys.forEach((k) => {
+    k.addEventListener('click', (e) => {
+
+      // Close notification by clicking any button
+      notif.classList.add('hide');
+      
+      // Send letter to current guess row
+      if (currentGuess.length < 5 && !(k.dataset.key === 'enter') && !(k.dataset.key === 'del')) {
+        currentGuess.push(k.dataset.key)
+        showChar();
+      } else if (k.dataset.key == 'enter') {
+        let guessString = currentGuess.join("");
+        validateGuess(guessString).then((res) => {
+          if (res) {
+            // Submit and style currentGuess
+            styleKeys();
+            checkGuess(); 
+          } else {
+            notifCentre('invalid');
+          }
+        });
+      } else if (k.dataset.key == 'del') {
+        // Check if row has letters to delete
+        // Pop last letter
+        currentGuess.pop();
+        showChar();
+      }
+  
+    });
+  });
+  
+  // Keyboard type
+  document.addEventListener('keyup', (e) => {
+
+    // Close notification by clicking any button
+    notif.classList.add('hide');
+
+    // Only accept letters, del and enter keys
+    if (currentGuess.length < 5 && validKeys.includes(e.key)) {
+      currentGuess.push(e.key)
       showChar();
-    } else if (k.dataset.key == 'enter') {
+    } else if (e.key == 'Enter') {
       let guessString = currentGuess.join("");
       validateGuess(guessString).then((res) => {
         if (res) {
@@ -187,34 +240,13 @@ keys.forEach((k) => {
           notifCentre('invalid');
         }
       });
-    } else if (k.dataset.key == 'del') {
-      // Check if row has letters to delete
-      // Pop last letter
+    } else if (e.key == 'Backspace') {
       currentGuess.pop();
-      showChar();
+      showChar( );
     }
+  })
 
-  });
-});
+}
 
-// Keyboard type
-document.addEventListener('keyup', (e) => {
-  if (currentGuess.length < 5 && validKeys.includes(e.key)) {
-    currentGuess.push(e.key)
-    showChar();
-  } else if (e.key == 'Enter') {
-    let guessString = currentGuess.join("");
-    validateGuess(guessString).then((res) => {
-      if (res) {
-        // Submit and style currentGuess
-        styleKeys();
-        checkGuess(); 
-      } else {
-        notifCentre('invalid');
-      }
-    });
-  } else if (e.key == 'Backspace') {
-    currentGuess.pop();
-    showChar( );
-  }
-})
+startGame();
+
