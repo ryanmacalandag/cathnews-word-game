@@ -63,6 +63,12 @@ html {
   font-size: 18px;
 }
 
+@media (max-width: 640px) {
+  html {
+    font-size: 16px;
+  }
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -87,6 +93,7 @@ body.dark {
 #game.container {
   max-width: 480px;
   padding: 1rem;
+  padding-top: 4rem;
   gap: 1rem;
   justify-content: center;
   height: 100dvh;
@@ -118,7 +125,7 @@ header {
   align-items: center;
   gap: 2rem;
   width: 100%;
-  padding: .85rem 1.35rem;
+  padding: .85rem 1.35rem .5rem;
   background-color: var(--clr-primary-darker);
   color: var(--clr-primary-lightest);
 }
