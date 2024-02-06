@@ -156,19 +156,19 @@ header {
 
 .char.wrong {
   background-color: var(--clr-wrong) !important;
-  border-color: var(--clr-wrong);
+  border-color: var(--clr-wrong) !important;
   color: var(--clr-white);
 }
 
 .char.position {
   background-color: var(--clr-position) !important;
-  border-color: var(--clr-position);
+  border-color: var(--clr-position) !important;
   color: var(--clr-white);
 }
 
 .char.correct {
   background-color: var(--clr-correct) !important;
-  border-color: var(--clr-correct);
+  border-color: var(--clr-correct) !important;
   color: var(--clr-white);
 }
 

@@ -36,21 +36,45 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 
 // Counters 
 let currentGuessRow = 0;
-
 // Submitted word
 let currentGuess = [];
-
 // List of submitted words
 let allGuesses = [];
-
 // List of keys used
 let usedKeys = [];
 
-// Print letter on current guess row
+// Print each letter iput
 function showChar() {
   const boxes = guessRows[currentGuessRow].querySelectorAll('.char');
   boxes.forEach ((box, i) => {
     box.textContent = currentGuess[i];
+  })
+}
+
+// Style current row
+function styleCurrentRow() {
+  guessRows.forEach((row, i) => {
+    if (currentGuessRow == i) {
+      row.classList.add('current');
+    } else row.classList.remove('current');
+    return true;
+  })
+}
+
+// Style used keys based on currentguess array
+function styleKeys() {
+  //// Go through currentGuess array
+  currentGuess.forEach((char) => {
+    if (!(usedKeys.includes(char))) {
+      usedKeys.push(char);
+    }
+  });
+
+  // Actual styling
+  keys.forEach((key) => {
+    if (usedKeys.includes(key.dataset.key)) {
+      key.classList.add('used');
+    } 
   })
 }
 
@@ -76,34 +100,6 @@ function resetGame() {
 
   showChar();
   styleKeys();
-}
-
-// Style current row
-function styleCurrentRow() {
-  guessRows.forEach((row, i) => {
-    if (currentGuessRow == i) {
-      row.classList.add('current');
-    } else row.classList.remove('current');
-    return true;
-  })
-}
-
-// Style used keys based on currentguess array
-function styleKeys() {
-
-  // Go through currentGuess array
-  currentGuess.forEach((char) => {
-    if (!(usedKeys.includes(char))) {
-      usedKeys.push(char);
-    }
-  });
-
-  // Actual styling
-  keys.forEach((key) => {
-    if (usedKeys.includes(key.dataset.key)) {
-      key.classList.add('used');
-    } 
-  })
 }
 
 // Handle notifs
@@ -139,19 +135,19 @@ function notifCentre(message) {
 
 // Check submitted guess
 function checkGuess() {
-  // Counter for number of correct letters
+  //// Counter for number of correct letters
   let correctGuesses = 0;
   
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
 
   answerArray.forEach((ans, j) => {
 
-    // Check if letter is included in the answer
+    ////// Check if letter is included in the answer
     if (answerArray.includes(answeredBoxes[j].textContent)) {
       answeredBoxes[j].classList.add('position');
     }
     
-    // Check if letter matches to answer
+    ////// Check if letter matches to answer
     if (ans == answeredBoxes[j].textContent) {
       answeredBoxes[j].classList.add('correct');
       correctGuesses++;
@@ -162,39 +158,41 @@ function checkGuess() {
 
   // Check if all 5 letters are correct
   if (correctGuesses == 5) {
-    // SUCCESS - show success notification
+    //// SUCCESS - show success notification
     notifCentre('success');
   } else {
-    // Not all letter are correct, move to next row
+    //// Not all letter are correct, move to next row
     currentGuessRow++;
-    // Highlight next row
+    //// Highlight next row
     styleCurrentRow();
-    // Empty your guess array
+    //// Empty your guess array
     currentGuess.length = 0;
   }
 
   // Check if currentGessRow is 6 (game over)
   if (currentGuessRow >= 6) {
-    // FAIL
+    //// FAIL
     notifCentre('fail');
   }
 
-} //checkguess
+} // checkGuess() //
 
+//
+//
+//
 // GAME START
-
 function startGame() {
 
   styleCurrentRow();
 
-  // Capture on-screen keyboard
+  //// ARM on-screen keyboard
   keys.forEach((k) => {
     k.addEventListener('click', (e) => {
 
-      // Close notification by clicking any button
+      ////// Close notification by clicking any button
       notif.classList.add('hide');
       
-      // Send letter to current guess row
+      ////// Send letter to current guess row
       if (currentGuess.length < 5 && !(k.dataset.key === 'enter') && !(k.dataset.key === 'del')) {
         currentGuess.push(k.dataset.key)
         showChar();
@@ -202,7 +200,7 @@ function startGame() {
         let guessString = currentGuess.join("");
         validateGuess(guessString).then((res) => {
           if (res) {
-            // Submit and style currentGuess
+            //////// Submit and style currentGuess
             styleKeys();
             checkGuess(); 
           } else {
@@ -210,8 +208,8 @@ function startGame() {
           }
         });
       } else if (k.dataset.key == 'del') {
-        // Check if row has letters to delete
-        // Pop last letter
+        ////// Check if row has letters to delete
+        ////// Pop last letter
         currentGuess.pop();
         showChar();
       }
@@ -219,13 +217,13 @@ function startGame() {
     });
   });
   
-  // Keyboard type
+  //// ARM physical keyboard
   document.addEventListener('keyup', (e) => {
 
-    // Close notification by clicking any button
+    ////// Close notification by clicking any button
     notif.classList.add('hide');
 
-    // Only accept letters, del and enter keys
+    ////// Only accept letters, del and enter keys
     if (currentGuess.length < 5 && validKeys.includes(e.key)) {
       currentGuess.push(e.key)
       showChar();
@@ -233,7 +231,7 @@ function startGame() {
       let guessString = currentGuess.join("");
       validateGuess(guessString).then((res) => {
         if (res) {
-          // Submit and style currentGuess
+          //////// Submit and style currentGuess
           styleKeys();
           checkGuess(); 
         } else {
@@ -246,7 +244,6 @@ function startGame() {
     }
   })
 
-}
+} // startGame() //
 
 startGame();
-
