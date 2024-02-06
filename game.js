@@ -10,7 +10,7 @@ const notifButton = document.querySelector('#notif .notif-button');
 // Sample answer word
 
 let tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole', 'heart', 'creep', 'donor', 'siker', 'civil', 'clift', 'gamma', 'flamy', 'curve', 'palmy', 'weigh', 'cramp', 'inkle', 'skeet', 'crock', 'slate', 'twirl' ];
-let random_item = (items) => items[Math.floor(Math.random() * items.length)];
+let random_item = (items) => items[Math.floor(Math.random() * items.length)]; 
 const answer = random_item(tempAnswers);
 let answerArray = answer.split("");
 
