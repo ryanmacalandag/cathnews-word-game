@@ -269,7 +269,7 @@ header {
 
 #notif {
   position: absolute;
-  background-color: var(--clr-primary);
+  background-color: var(--clr-primary-darker);
   color: var(--clr-primary-lightest);
   padding: 2rem 3rem;
   border-radius: .5rem;
