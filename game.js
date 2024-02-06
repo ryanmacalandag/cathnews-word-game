@@ -11,7 +11,6 @@ const notifButton = document.querySelector('#notif .notif-button');
 const tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole', 'Zumic', 'heart', 'creep', 'donor', 'siker', 'civil', 'clift', 'gamma', 'flamy', 'curve', 'palmy', 'weigh', 'cramp', 'inkle', 'skeet', 'crock', 'slate', 'twirl' ];
 const random_item = (items) => items[Math.floor(Math.random() * items.length)];
 let answer = random_item(tempAnswers);
-console.log(answer);
 const answerArray = answer.split("");
 
 // Load valid-words.json first time
@@ -23,7 +22,6 @@ async function loadValidWords() {
 
 async function validateGuess(guess) {
   const validWords = await loadValidWords();
-  console.log(validWords.includes(guess))
   return validWords.includes(guess);
 }
 
@@ -55,6 +53,7 @@ function showChar() {
 function styleCurrentRow() {
   guessRows.forEach((row, i) => {
     if (currentGuessRow == i) {
+      row.classList.remove('current');
       row.classList.add('current');
     } else row.classList.remove('current');
     return true;
@@ -70,7 +69,7 @@ function styleKeys() {
     }
   });
 
-  // Actual styling
+  //// Actual styling
   keys.forEach((key) => {
     if (usedKeys.includes(key.dataset.key)) {
       key.classList.add('used');
@@ -79,7 +78,7 @@ function styleKeys() {
 }
 
 // Reset all game counters
-function resetGame() {
+function resetBoard() {
   currentGuessRow = 0;
   currentGuess = [];
   allGuesses = [];
@@ -96,10 +95,10 @@ function resetGame() {
     key.classList.remove('used');
   })
 
-  location.reload();
-
-  showChar();
+  styleCurrentRow();
   styleKeys();
+  showChar();
+
 }
 
 // Handle notifs
@@ -110,7 +109,13 @@ function notifCentre(message) {
     notifButton.textContent = 'Play again';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
-      resetGame();
+      startGame();
+    })
+    document.addEventListener('keyup', (e) => {
+      if (e.key == 'enter') {
+        notif.classList.add('hide');
+        startGame();
+      }
     })
     notif.classList.remove('hide');
   } else if (message == 'fail') {
@@ -118,7 +123,7 @@ function notifCentre(message) {
     notifButton.textContent = 'Start over';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
-      resetGame();
+      startGame();
     })
     notif.classList.remove('hide');
   } else if (message == 'invalid') {
@@ -183,7 +188,11 @@ function checkGuess() {
 // GAME START
 function startGame() {
 
-  styleCurrentRow();
+  //// Current answer
+  console.log(answer);
+
+  //// Clean up the gameboard
+  resetBoard();
 
   //// ARM on-screen keyboard
   keys.forEach((k) => {
