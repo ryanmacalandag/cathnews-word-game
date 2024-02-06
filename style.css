@@ -135,7 +135,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;  
+  align-items: baseline;  
   gap: 2rem;
   width: 100%;
   padding-left: 1.5rem;
@@ -152,15 +152,11 @@ header {
   font-size: 1.65rem;
 }
 
-.menu {
-  
-}
-
 .menu .cog-button {
   cursor: pointer;
   background-color: var(--clr-primary-darkest);
   color: var(--clr-primary-light);
-  padding: 1.2rem 1.35rem 1.2rem;
+  padding: 1.2rem 1.35rem .95rem;
   transition: .3s;
   font-size: 1.25rem;
 }
@@ -168,6 +164,15 @@ header {
 .menu .cog-button:hover {
   background-color: var(--clr-primary-dark);
   color: var(--clr-primary-lightest);
+}
+
+.menu .cog-button i {
+  transform: rotate(0);
+  transition: .3s;
+}
+
+.menu .cog-button:hover i {
+  transform: rotate(240deg);
 }
 
 /* Drawer */
@@ -232,7 +237,8 @@ header {
   background-color: var(--clr-primary-lighter);
   border-radius: 5rem;
   position: absolute;
-  top: .125em;
+  top: 50%;
+  transform: translateY(-50%);
   left: .15em;
   transition: .3s;
 }
