@@ -13,11 +13,11 @@
   --fnt-headings: "Roboto Condensed", sans-serif;
   --fnt-body: "Roboto Condensed", sans-serif;
 
-  --clr-primary: hsl(176, 100%, 33%);
-  --clr-primary-light: hsl(176, 73%, 58%);
-  --clr-primary-lighter: hsl(175, 14%, 67%);
-  --clr-primary-lightest: hsl(173, 25%, 94%);
-  --clr-primary-dark: hsl(177, 72%, 24%);
+  --clr-primary: hsl(176, 70%, 33%);
+  --clr-primary-light: hsl(176, 20%, 58%);
+  --clr-primary-lighter: hsl(175, 10%, 80%);
+  --clr-primary-lightest: hsl(173, 10%, 90%);
+  --clr-primary-dark: hsl(177, 45%, 24%);
   --clr-primary-darker: hsl(178, 27%, 19%);
   --clr-primary-darkest: hsl(180, 4%, 9%);
 
@@ -267,10 +267,17 @@ header {
 }
 
 .key.used {
-  background-color: var(--clr-wrong) !important;
+  background-color: var(--clr-primary-lightest) !important;
   border-color: var(--clr-wrong);
+  color: var(--clr-primary-lighter);
+}
+
+.key.used.correct {
+  background-color: var(--clr-correct) !important;
+  border-color: var(--clr-correct);
   color: var(--clr-primary-lightest);
 }
+
 
 /* Notification */
 
