@@ -20,7 +20,7 @@
   --clr-primary-dark: hsl(106, 26%, 16%);
   --clr-primary-darker: hsl(120, 2%, 17%);
 
-  --clr-white: hsl(120, 6%, 97%);
+  --clr-white: hsl(60, 33%, 98%);
   --clr-light-gray: hsl(0, 0%, 75%);
   --clr-lighter-gray: hsl(0, 0%, 90%);
   --clr-gray: hsl(120, 1%, 29%);
@@ -72,6 +72,8 @@ body {
   background-color: var(--clr-white);
   color: var(--clr-primary-darker);
   position: relative;
+  background: url(./ricepaper2.png) repeat;
+  background-blend-mode: lighten;
 }
 
 body.dark {
@@ -165,6 +167,7 @@ header {
 
 .guess .char {
   border: 2px solid var(--clr-light-gray);
+  background-color: var(--clr-white);
   width: 3.35rem;
   border-radius: 5px;
   height: 3.5rem;
