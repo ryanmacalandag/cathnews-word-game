@@ -13,12 +13,13 @@
   --fnt-headings: "Roboto Condensed", sans-serif;
   --fnt-body: "Roboto Condensed", sans-serif;
 
-  --clr-primary: hsl(107, 35%, 19%);
-  --clr-primary-light: hsl(107, 31%, 42%);
-  --clr-primary-lighter: hsl(107, 31%, 70%);
-  --clr-primary-lightest: hsl(76, 27%, 89%);
-  --clr-primary-dark: hsl(106, 26%, 16%);
-  --clr-primary-darker: hsl(120, 2%, 17%);
+  --clr-primary: hsl(176, 100%, 33%);
+  --clr-primary-light: hsl(176, 73%, 58%);
+  --clr-primary-lighter: hsl(175, 14%, 67%);
+  --clr-primary-lightest: hsl(173, 25%, 94%);
+  --clr-primary-dark: hsl(177, 72%, 24%);
+  --clr-primary-darker: hsl(178, 27%, 19%);
+  --clr-primary-darkest: hsl(180, 4%, 9%);
 
   --clr-white: hsl(60, 33%, 98%);
   --clr-light-gray: hsl(0, 0%, 75%);
@@ -27,9 +28,9 @@
   --clr-dark-gray: hsl(180, 1%, 18%);
   --clr-black: hsl(0, 0%, 9%);
 
-  --clr-wrong: var(--clr-light-gray);
+  --clr-wrong: var(--clr-primary-lighter);
   --clr-position: hsl(50, 77%, 47%);
-  --clr-correct: hsl(129, 59%, 28%);
+  --clr-correct: hsl(150, 65%, 26%);
 }
 
 a, a:active {
@@ -69,7 +70,7 @@ body {
   align-items: center;
   width: 100%;
   min-height: 100dvh;
-  background-color: var(--clr-white);
+  background-color: var(--clr-primary-lightest);
   color: var(--clr-primary-darker);
   position: relative;
   background: url(./ricepaper2.png) repeat;
@@ -108,6 +109,9 @@ body.dark {
 /* Header section */
 
 header {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -120,9 +124,14 @@ header {
 }
 
 .logo {
-  font-size: 1.15rem;
+  font-size: .95rem;
   font-family: 'Roboto Condensed', sans-serif;
-  font-weight: 700;
+  font-weight: 300;
+}
+
+.logo span {
+  font-weight: 800;
+  font-size: 1.65rem;
 }
 
 
@@ -140,7 +149,7 @@ header {
 }
 
 .guess.current .char {
-  border: 3px solid;
+  border: 3px solid var(--clr-primary-dark);
   animation: wiggle 5s infinite;
 }
 
@@ -166,8 +175,8 @@ header {
 }
 
 .guess .char {
-  border: 2px solid var(--clr-light-gray);
-  background-color: var(--clr-white);
+  border: 2px solid var(--clr-primary-lightest);
+  background-color: var(--clr-primary-lightest);
   width: 3.35rem;
   border-radius: 5px;
   height: 3.5rem;
@@ -182,19 +191,19 @@ header {
 .char.wrong {
   background-color: var(--clr-wrong) !important;
   border-color: var(--clr-wrong) !important;
-  color: var(--clr-white);
+  color: var(--clr-primary-lightest);
 }
 
 .char.position {
   background-color: var(--clr-position) !important;
   border-color: var(--clr-position) !important;
-  color: var(--clr-white);
+  color: var(--clr-primary-lightest);
 }
 
 .char.correct {
   background-color: var(--clr-correct) !important;
   border-color: var(--clr-correct) !important;
-  color: var(--clr-white);
+  color: var(--clr-primary-lightest);
 }
 
 /* Keyboard section */
@@ -209,7 +218,7 @@ header {
   text-transform: uppercase;
   font-size: 1.1rem;
   font-weight: 600;
-  background-color: var(--clr-lighter-gray);
+  background-color: var(--clr-primary-lighter);
   padding: .65rem .35rem;
   cursor: pointer;
   width: 1.7rem;
@@ -222,19 +231,19 @@ header {
 }
 
 .key:hover {
-  background-color: var(--clr-light-gray);
+  background-color: var(--clr-primary-lightest);
 }
 
 .key.enter, .key.delete, .key.enter:active, .key.delete:active  {
-  background-color: var(--clr-gray);
-  color: var(--clr-white);
+  background-color: var(--clr-primary-dark);
+  color: var(--clr-primary-lightest);
   padding-left: .65rem;
   padding-right: .65rem;
   font-size: .6rem;
 }
 
 .key.enter:hover, .key.delete:hover {
-  background-color: var(--clr-dark-gray);
+  background-color: var(--clr-primary-darker);
 }
 
 .key.delete {
@@ -253,7 +262,7 @@ header {
 .key.used {
   background-color: var(--clr-wrong) !important;
   border-color: var(--clr-wrong);
-  color: var(--clr-white);
+  color: var(--clr-primary-lightest);
 }
 
 /* Notification */
@@ -261,7 +270,7 @@ header {
 #notif {
   position: absolute;
   background-color: var(--clr-primary);
-  color: var(--clr-white);
+  color: var(--clr-primary-lightest);
   padding: 2rem 3rem;
   border-radius: .5rem;
   display: flex;
@@ -271,6 +280,7 @@ header {
   gap: 1rem;
   top: 50%;
   transform: translateY(-50%);
+  width: 100%;
 }
 
 #notif.hide {
@@ -296,7 +306,7 @@ header {
 
 #notif button:hover {
   background-color: var(--clr-primary-light);
-  color: var(--clr-white);
+  color: var(--clr-primary-lightest);
 }
 
 #notif button::before {

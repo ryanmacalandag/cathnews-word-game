@@ -8,10 +8,11 @@ const notifMessage = document.querySelector('#notif .notif-message');
 const notifButton = document.querySelector('#notif .notif-button');
 
 // Sample answer word
-const tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole', 'Zumic', 'heart', 'creep', 'donor', 'siker', 'civil', 'clift', 'gamma', 'flamy', 'curve', 'palmy', 'weigh', 'cramp', 'inkle', 'skeet', 'crock', 'slate', 'twirl' ];
-const random_item = (items) => items[Math.floor(Math.random() * items.length)];
-let answer = random_item(tempAnswers);
-const answerArray = answer.split("");
+
+let tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole', 'zumic', 'heart', 'creep', 'donor', 'siker', 'civil', 'clift', 'gamma', 'flamy', 'curve', 'palmy', 'weigh', 'cramp', 'inkle', 'skeet', 'crock', 'slate', 'twirl' ];
+let random_item = (items) => items[Math.floor(Math.random() * items.length)];
+const answer = random_item(tempAnswers);
+let answerArray = answer.split("");
 
 // Load valid-words.json first time
 async function loadValidWords() {
@@ -19,7 +20,6 @@ async function loadValidWords() {
   const data = await response.json();
   return data;
 };
-
 async function validateGuess(guess) {
   const validWords = await loadValidWords();
   return validWords.includes(guess);
@@ -79,6 +79,7 @@ function styleKeys() {
 
 // Reset all game counters
 function resetBoard() {
+
   currentGuessRow = 0;
   currentGuess = [];
   allGuesses = [];
@@ -95,6 +96,9 @@ function resetBoard() {
     key.classList.remove('used');
   })
 
+  //// Hard refresh
+  location.reload();
+
   styleCurrentRow();
   styleKeys();
   showChar();
@@ -109,13 +113,7 @@ function notifCentre(message) {
     notifButton.textContent = 'Play again';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
-      startGame();
-    })
-    document.addEventListener('keyup', (e) => {
-      if (e.key == 'enter') {
-        notif.classList.add('hide');
-        startGame();
-      }
+      resetBoard();
     })
     notif.classList.remove('hide');
   } else if (message == 'fail') {
@@ -123,7 +121,7 @@ function notifCentre(message) {
     notifButton.textContent = 'Start over';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
-      startGame();
+      return false;
     })
     notif.classList.remove('hide');
   } else if (message == 'invalid') {
@@ -137,14 +135,13 @@ function notifCentre(message) {
   }
 }
 
-
 // Check submitted guess
-function checkGuess() {
+function checkGuess(answer) {
   //// Counter for number of correct letters
   let correctGuesses = 0;
   
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
-
+  
   answerArray.forEach((ans, j) => {
 
     ////// Check if letter is included in the answer
@@ -188,11 +185,14 @@ function checkGuess() {
 // GAME START
 function startGame() {
 
-  //// Current answer
-  console.log(answer);
+  //// Clean up game board
+  // resetBoard();
 
-  //// Clean up the gameboard
-  resetBoard();
+  styleCurrentRow();
+  styleKeys();
+  showChar();
+
+  console.log(answer)
 
   //// ARM on-screen keyboard
   keys.forEach((k) => {
@@ -211,7 +211,7 @@ function startGame() {
           if (res) {
             //////// Submit and style currentGuess
             styleKeys();
-            checkGuess(); 
+            checkGuess(answer); 
           } else {
             notifCentre('invalid');
           }
@@ -242,7 +242,7 @@ function startGame() {
         if (res) {
           //////// Submit and style currentGuess
           styleKeys();
-          checkGuess(); 
+          checkGuess(answer); 
         } else {
           notifCentre('invalid');
         }
@@ -251,8 +251,8 @@ function startGame() {
       currentGuess.pop();
       showChar( );
     }
-  })
+  });
 
-} // startGame() //
+}; // startGame() //
 
 startGame();
