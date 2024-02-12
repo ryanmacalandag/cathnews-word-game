@@ -10,4 +10,3 @@ cog.addEventListener('click', (e) => {
 darkToggle.addEventListener('click', (e) => {
   body.classList.toggle('dark');
 })
-
