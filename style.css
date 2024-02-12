@@ -94,10 +94,10 @@ body.dark {
 #game.container {
   max-width: 480px;
   padding: 1rem;
-  padding-top: 4rem;
+  /* padding-top: 4rem; */
   gap: 1rem;
   justify-content: center;
-  height: 100dvh;
+  /* height: 100dvh; */
 }
 
 .column {
@@ -118,9 +118,7 @@ body.dark {
 
 header {
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
+  /* position: absolute; */
   width: 100%;
   background-color: var(--clr-primary-darker);
   color: var(--clr-primary-lightest);
@@ -135,7 +133,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: baseline;  
+  align-items: flex-end;  
   gap: 2rem;
   width: 100%;
   padding-left: 1.5rem;
@@ -145,6 +143,7 @@ header {
   font-size: .95rem;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 300;
+  padding-bottom: .5rem;
 }
 
 .logo span {
@@ -152,11 +151,11 @@ header {
   font-size: 1.65rem;
 }
 
-.menu .cog-button {
+.menu .cog-button, .menu .cog-button:active {
   cursor: pointer;
   background-color: var(--clr-primary-darkest);
   color: var(--clr-primary-light);
-  padding: 1.2rem 1.35rem .95rem;
+  padding: 1rem 1.05rem .85rem;
   transition: .3s;
   font-size: 1.25rem;
 }
@@ -192,6 +191,7 @@ header {
   padding: 1.85em 1.5em 1.35em;
   display: none;
   transition: .2s;
+  overflow: hidden;
 }
 
 #drawer.open .inner {
