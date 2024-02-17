@@ -447,7 +447,8 @@ header {
   gap: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 100%;
+  width: 104%;
+  min-height: 100%;
 }
 
 #notif.hide {
@@ -484,4 +485,8 @@ header {
   transform: translateY(-50%);
   color: var(--clr-primary-light);
   filter: opacity(.7);
+}
+
+#notif button.hide {
+  display: none;
 }
