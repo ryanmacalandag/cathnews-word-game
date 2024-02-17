@@ -89,6 +89,10 @@ body.dark {
   background-image: none;
 }
 
+body.hide {
+  display: none;
+}
+
 /* Scaffolding */
 
 #game.container {
@@ -440,57 +444,55 @@ header {
   color: var(--clr-primary-lightest);
   padding: 0;
   border-radius: .5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
   top: 50%;
   transform: translateY(-50%);
   width: 104%;
   min-height: 100%;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2,50%);
+  justify-content: center;
+  align-items: center;
 }
 
 #notif img {
-  
+  flex-grow: 0;
+}
+
+#notif .col.img {
+  display: flex;
 }
 
 #notif.hide {
   display: none;
 }
 
+#notif .message-container {
+  display: flex;
+  flex-direction: column;
+  padding-right: 2rem;
+}
+
 #notif p {
   text-align: left;
-  padding-right: 2rem;
 }
 
 #notif button {
   border: none;
-  background-color: var(--clr-primary-lightest);
-  padding: 1rem 3rem 1rem 4rem;
-  border-radius: .5rem;
-  text-transform: uppercase;
-  font-weight: 700;
+  border-radius: 5rem;
+  font-size: 1.45rem;
   color: var(--clr-primary);
-  letter-spacing: 1px;
-  transition: 200ms ease;
-  position: relative;
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  top: 1rem;
+  right: 1rem;
+  padding-top: 3px;
 }
 
 #notif button:hover {
   background-color: var(--clr-primary-light);
   color: var(--clr-primary-lightest);
-}
-
-#notif button::before {
-  content: url('./refresh.svg');
-  position: absolute;
-  left: 2.25rem;
-  top: 53%;
-  transform: translateY(-50%);
-  color: var(--clr-primary-light);
-  filter: opacity(.7);
 }
 
 #notif button.hide {

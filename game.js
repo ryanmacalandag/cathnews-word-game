@@ -4,17 +4,36 @@ const guessBoxes = document.querySelectorAll('.guess.row .char');
 const keys = document.querySelectorAll('.key');
 
 const notif = document.querySelector('#notif');
+const notifImage = document.querySelector('#notif img');
 const notifMessage = document.querySelector('#notif .notif-message');
 const notifButton = document.querySelector('#notif .notif-button');
 
-// Load data from locatStorage, split string to convert into array
-let answerKey = localStorage.getItem('anskey').split(',') || [];
-let validWords = localStorage.getItem('validwords').split(',') || [];
+// Hide everything, wait until loaded
+let domReady = (cb) => {
+  document.readyState === 'interactive' || document.readyState === 'complete'
+    ? cb()
+    : document.addEventListener('DOMContentLoaded', cb);
+};
 
-// Store to local storage
-if (answerKey.length == 0 || validWords.length == 0) {
+domReady(() => {
+  // Display body when DOM is loaded
+  document.body.classList.remove('hide');
+});
+
+// Load data from locatStorage, split string to convert into array
+let rawAns = localStorage.getItem('anskey');
+let rawValid = localStorage.getItem('validwords');
+
+let answerKey = [];
+let validWords = [];
+
+if (rawAns != null || rawAns != null) {
+  answerKey = rawAns.split(',');
+  validWords = rawValid.split(',');
+  console.log('Storage exists!');
+} else {
   loadData();
-} else console.log('Storage exists!');
+}
 
 // Fetch data if localStorage empty
 function loadData() {
@@ -82,7 +101,11 @@ let doneToday = false;
 
 
 // Check if today's game done
-allGuesses = localStorage.getItem('allguesses').split(',');
+let rawAllGuesses = localStorage.getItem('allguesses');
+
+if (rawAllGuesses != null) {
+  allGuesses = rawAllGuesses.split(',');
+}
 
 if (allGuesses.length === 0) {
   resetBoard();
@@ -165,14 +188,12 @@ function resetBoard() {
   //// Hard refresh
   // location.reload();
 
+  //// reset styles
   styleCurrentRow();
   styleKeys();
   showChar();
 
 }
-
-// Show END screen when today's game done
-
 
 // Handle notifs
 function notifCentre(message) {
@@ -180,20 +201,20 @@ function notifCentre(message) {
   if (message == 'success') {
     notif.classList.remove('hide');
     localStorage.setItem('allguesses', allGuesses);
+    notifImage.src = './winner.png';
     notifButton.classList.add('hide');
     notifMessage.innerHTML = "You guessed today's word in " + ((currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!") + " Come back tomorrow." );
     console.log('success')
   } else if (message == 'fail') {
     notifMessage.textContent = "Sorry, you have no more tries left! Come back tomorrow.";
-    notifButton.textContent = 'Start over';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
       return false;
     })
     notif.classList.remove('hide');
   } else if (message == 'invalid') {
+    notifImage.src = './wrong.png';
     notifMessage.textContent = "Invalid word is not in the dictionary!";
-    notifButton.textContent = 'Try again';
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
       return;
