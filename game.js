@@ -7,12 +7,58 @@ const notif = document.querySelector('#notif');
 const notifMessage = document.querySelector('#notif .notif-message');
 const notifButton = document.querySelector('#notif .notif-button');
 
-// Sample answer word
+// Load data from locatStorage, split string to convert into array
+let answerKey = localStorage.getItem('anskey').split(',') || [];
+let validWords = localStorage.getItem('validwords').split(',') || [];
 
-let tempAnswers = ['antes', 'treat', 'smart', 'valve', 'stick', 'yearn', 'tardy', 'chasm', 'discs', 'gnaws', 'leave', 'spite', 'chalk', 'valve', 'whole', 'heart', 'creep', 'donor', 'siker', 'civil', 'clift', 'gamma', 'flamy', 'curve', 'palmy', 'weigh', 'cramp', 'inkle', 'skeet', 'crock', 'slate', 'twirl' ];
-let random_item = (items) => items[Math.floor(Math.random() * items.length)]; 
-const answer = random_item(tempAnswers);
+// Store to local storage
+if (answerKey.length == 0 || validWords.length == 0) {
+  console.log('Storage is empty!')
+  loadData();
+} else console.log('Storage exists!');
+
+// Fetch data if localStorage empty
+function loadData() {
+
+  // fetch answers.json
+  async function fetchAns() {
+    const response = await fetch('./answers.json');
+    const data = await response.json();
+    return data;
+  }
+
+  fetchAns().then((value) => {
+    answerKey = localStorage.setItem('anskey', value);
+    console.log('Answers loaded from localstorage.')
+  })
+
+  // fetch valid-words.json
+  async function fetchValid() {
+    const response = await fetch('./valid-words.json');
+    const data = await response.json();
+    return data;
+  }
+
+  fetchValid().then((value) => {
+    validWords = localStorage.setItem('validwords', value);
+    console.log('Valid words loaded from localstorage.')
+  })
+
+}
+
+// Today's hidden word
+let startDate = new Date('2024-02-17');
+let currentDate = Date.now();
+
+console.log(Date.parse(startDate));
+console.log(currentDate);
+
+let dayNumber = Math.floor((currentDate - startDate) / (365 * 24 * 60 * 60));
+let answer = answerKey[dayNumber];
 let answerArray = answer.split("");
+
+console.log(answer);
+console.log(answerKey);
 
 // Load valid-words.json first time
 async function loadValidWords() {
@@ -37,9 +83,11 @@ let currentGuessRow = 0;
 // Submitted word
 let currentGuess = [];
 // List of submitted words
-let allGuesses = [];
+let allKeys = [];
 // List of keys used
 let usedKeys = [];
+// Changes when successfully solved
+let success = false;
 
 // Print each letter iput
 function showChar() {
@@ -85,7 +133,7 @@ function resetBoard() {
 
   currentGuessRow = 0;
   currentGuess = [];
-  allGuesses = [];
+  allKeys = [];
   usedKeys = [];
   correctKeys = [];
 
