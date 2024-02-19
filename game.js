@@ -8,6 +8,21 @@ const notifImage = document.querySelector('#notif img');
 const notifMessage = document.querySelector('#notif .notif-message');
 const notifButton = document.querySelector('#notif .notif-button');
 
+// Valid keys
+const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+'m', 'n', 'o', 'p', 'q', 'r',  's', 't', 'u', 'v', 'w', 'x',
+'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+'M', 'N', 'O', 'P', 'Q', 'R',  'S', 'T', 'U', 'V', 'W', 'X',
+'Y', 'Z' ]
+
+// Clear old data!!!
+if (localStorage.getItem('validkeys')) {
+  localStorage.clear();
+}
+
+// Set version to allow clearing of previous localStorage data
+localStorage.setItem('version', '0.01');
+
 // Hide everything, wait until loaded
 let domReady = (cb) => {
   document.readyState === 'interactive' || document.readyState === 'complete'
@@ -20,22 +35,27 @@ domReady(() => {
   document.body.classList.remove('hide');
 });
 
-// Load data from locatStorage, split string to convert into array
-let rawAns = localStorage.getItem('anskey');
-let rawValid = localStorage.getItem('validwords');
-
 let answerKey = [];
 let validWords = [];
 
-if (rawAns != null || rawAns != null) {
-  answerKey = rawAns.split(',');
-  validWords = rawValid.split(',');
-  console.log('Storage exists!');
-} else {
-  loadData();
-}
+// Dates
+let _STARTDATE = new Date('2024-02-17');
+let currentDate = Date.now();
 
-// Fetch data if localStorage empty
+// Set previous game date
+let previousGameDate = localStorage.getItem('previousgamedate') || currentDate;
+let previousGameNumber = Math.floor((previousGameDate - _STARTDATE) / (365 * 24 * 60 * 60));
+let previousAns = localStorage.getItem('previousAns') || "";
+
+// Today's hidden word
+let currentDayNumber = Math.floor((currentDate - _STARTDATE) / (365 * 24 * 60 * 60));
+let answer = localStorage.getItem('answer') || "";
+let answerArray = answer.split('');
+
+console.log(answer)
+
+// Load answer key and valid words from json files
+
 function loadData() {
 
   // fetch answers.json
@@ -46,8 +66,14 @@ function loadData() {
   }
 
   fetchAns().then((value) => {
-    answerKey = localStorage.setItem('anskey', value);
-    console.log('Answers loaded from localstorage.')
+    answerKey = value;
+    console.log('Answer key loaded!');
+
+    // set today's hidden word
+    let answerToday = answerKey[currentDayNumber];
+    localStorage.setItem('answer', answerToday);
+    answer = answerToday;
+    answerArray = answerToday.split('');
   })
 
   // fetch valid-words.json
@@ -58,71 +84,67 @@ function loadData() {
   }
 
   fetchValid().then((value) => {
-    validWords = localStorage.setItem('validwords', value);
-    console.log('Valid words loaded from localstorage.')
+    validWords = value;
+    console.log('Valid words loaded!')
   })
 
 }
+loadData();
 
-// Today's hidden word
-let startDate = new Date('2024-02-17');
-let currentDate = Date.now();
-
-let dayNumber = Math.floor((currentDate - startDate) / (365 * 24 * 60 * 60));
-let answer = answerKey[dayNumber];
-let answerArray = answer.split("");
-
-// Validate guess submitted
-function validateGuess(guess) {
-  return validWords.includes(guess);
-}
-
-// Valid keys
-const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-'m', 'n', 'o', 'p', 'q', 'r',  's', 't', 'u', 'v', 'w', 'x',
-'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-'M', 'N', 'O', 'P', 'Q', 'R',  'S', 'T', 'U', 'V', 'W', 'X',
-'Y', 'Z' ]
 
 // Counters 
-let currentGuessRow = 0;
-// Submitted word
-let currentGuess = [];
-// List of submitted guesses
-let allGuesses = [];
-// List of submitted characters
-let allKeys = [];
-// List of keys used
-let usedKeys = [];
-// Changes when successfully solved
-let success = false;
-// Locks game when done today
-let doneToday = false;
+let rawAllGuesses = localStorage.getItem('allguesses') || [];
+let allGuesses = (rawAllGuesses.length > 0) ? rawAllGuesses.split(',') : [];
+let usedKeys = localStorage.getItem('usedkeys') || [];
+let success = localStorage.getItem('success') || false;
+let doneToday = localStorage.getItem('donetoday') || false;
 
+let currentGuessRow = rawAllGuesses.length;
+let currentGuess = rawAllGuesses[-1] || [];
+
+
+console.log(allGuesses)
 
 // Check if today's game done
-let rawAllGuesses = localStorage.getItem('allguesses');
 
-if (rawAllGuesses != null) {
-  allGuesses = rawAllGuesses.split(',');
-}
-
-if (allGuesses.length === 0) {
+// New day, not done yet
+if (currentDayNumber > previousGameNumber && !doneToday) { // different day, reset game
   resetBoard();
   startGame();
-} else if (allGuesses[allGuesses.length - 1] === answer) {
+  console.log('Start fresh today!')
+} else if (currentDayNumber === previousGameNumber && !doneToday) { // same day, continuance, load game
   allGuesses.forEach((stored, i) => {
     currentGuessRow = i;
     currentGuess = stored.split('');
     showChar();
-    checkGuess();
+    checkGuess(stored);
+    styleCurrentRow();
+    styleKeys();
+  });
+  startGame();
+  console.log('Not quite finished yet. Continue playing!')
+} else if (currentDayNumber === previousGameNumber && doneToday && !success) { // same day, game done, failed
+  allGuesses.forEach((stored, i) => {
+    currentGuessRow = i;
+    currentGuess = stored.split('');
+    showChar();
+    checkGuess(stored);
+    styleCurrentRow();
+    styleKeys();
+  });
+  notifCentre('fail');
+} else if (currentDayNumber === previousGameNumber && doneToday && success) { // same day, game done, success
+  allGuesses.forEach((stored, i) => {
+    currentGuessRow = i;
+    currentGuess = stored.split('');
+    showChar();
+    checkGuess(stored);
     styleCurrentRow();
     styleKeys();
   });
   notifCentre('success');
   console.log('Puzzle already guessed. Come back tomorrow.')  
 }
-
 
 
 // Print each letter iput
@@ -170,9 +192,12 @@ function resetBoard() {
   currentGuessRow = 0;
   currentGuess = [];
   allGuesses = [];
-  allKeys = [];
   usedKeys = [];
   correctKeys = [];
+  success = false;
+  localStorage.setItem('success', success);
+  doneToday = false;
+  localStorage.setItem('donetoday', doneToday);
 
   guessBoxes.forEach((box) => {
     box.classList.remove('correct');
@@ -185,9 +210,6 @@ function resetBoard() {
     key.classList.remove('used');
   })
 
-  //// Hard refresh
-  // location.reload();
-
   //// reset styles
   styleCurrentRow();
   styleKeys();
@@ -195,18 +217,32 @@ function resetBoard() {
 
 }
 
+// Validate guess submitted
+function validateGuess(guess) {
+  return validWords.includes(guess);
+}
+
+
+
 // Handle notifs
 function notifCentre(message) {
 
   if (message == 'success') {
     notif.classList.remove('hide');
-    localStorage.setItem('allguesses', allGuesses);
     notifImage.src = './winner.png';
     notifButton.classList.add('hide');
     notifMessage.innerHTML = "You guessed today's word in " + ((currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!") + " Come back tomorrow." );
-    console.log('success')
+    success = true;
+    localStorage.setItem('success', success);
+    doneToday = true;
+    localStorage.setItem('donetoday', doneToday);
   } else if (message == 'fail') {
     notifMessage.textContent = "Sorry, you have no more tries left! Come back tomorrow.";
+    success = false;
+    localStorage.setItem('success', success);
+    doneToday = true;
+    localStorage.setItem('donetoday', doneToday);
+
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
       return false;
@@ -224,12 +260,13 @@ function notifCentre(message) {
 }
 
 // Check submitted guess
-function checkGuess(answer) {
+function checkGuess() {
+  
   //// Counter for number of correct letters
   let correctGuesses = 0;
   
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
-  
+
   answerArray.forEach((ans, j) => {
 
     ////// Check if letter is included in the answer
@@ -247,7 +284,7 @@ function checkGuess(answer) {
   })
 
   // Check if all 5 letters are correct
-  if (correctGuesses == 5) {
+  if (correctGuesses === 5) {
     //// SUCCESS - show success notification
     notifCentre('success');
   } else {
@@ -277,8 +314,6 @@ function startGame() {
   styleKeys();
   showChar();
 
-  console.log(answer)
-
   //// ARM on-screen keyboard
   keys.forEach((k) => {
     k.addEventListener('click', (e) => {
@@ -298,7 +333,8 @@ function startGame() {
           //////// Submit and style currentGuess
           styleKeys();
           allGuesses.push(guessString);
-          checkGuess(answer); 
+          localStorage.setItem('allguesses', allGuesses);
+          checkGuess(); 
         } else {
           notifCentre('invalid');
         }
@@ -329,13 +365,14 @@ function startGame() {
       if (validateGuess(guessString)) {
         styleKeys();
         allGuesses.push(guessString);
-        checkGuess(answer); 
+        localStorage.setItem('allguesses', allGuesses);
+        checkGuess(); 
       } else {
         notifCentre('invalid');
       }
     } else if (e.key == 'Backspace') {
       currentGuess.pop();
-      showChar( );
+      showChar();
     }
   });
 
