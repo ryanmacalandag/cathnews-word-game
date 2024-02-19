@@ -16,13 +16,14 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 'Y', 'Z' ]
 
 // Clear old data!!!
-if (localStorage.getItem('validkeys')) {
+if (localStorage.getItem('validkeys') || localStorage.getItem('version') === '0.01') {
   localStorage.clear();
+  console.log('Old storage cleared!');
 }
 
 // Set version to allow clearing of previous localStorage data
-// v0.01 - allguesses, answer, donetoday, success, version
-localStorage.setItem('version', '0.01');
+// v0.02 - allguesses, answer, donetoday, success, version, previousgamedate
+localStorage.setItem('version', '0.02');
 
 // Hide everything, wait until loaded
 let domReady = (cb) => {
@@ -46,14 +47,13 @@ let currentDate = Date.now();
 // Set previous game date
 let previousGameDate = localStorage.getItem('previousgamedate') || currentDate;
 let previousGameNumber = Math.floor((previousGameDate - _STARTDATE) / (365 * 24 * 60 * 60));
-let previousAns = localStorage.getItem('previousAns') || "";
 
 // Today's hidden word
 let currentDayNumber = Math.floor((currentDate - _STARTDATE) / (365 * 24 * 60 * 60));
 let answer = localStorage.getItem('answer') || "";
 let answerArray = answer.split('');
 
-console.log(answer)
+console.log('Not the answer:', answer)
 
 // Load answer key and valid words from json files
 
@@ -68,7 +68,7 @@ function loadData() {
 
   fetchAns().then((value) => {
     answerKey = value;
-    console.log('Answer key loaded!');
+    // console.log('Answer key loaded!');
 
     // set today's hidden word
     let answerToday = answerKey[currentDayNumber];
@@ -86,7 +86,7 @@ function loadData() {
 
   fetchValid().then((value) => {
     validWords = value;
-    console.log('Valid words loaded!')
+    // console.log('Valid words loaded!')
   })
 
 }
@@ -104,17 +104,19 @@ let currentGuessRow = rawAllGuesses.length;
 let currentGuess = rawAllGuesses[-1] || [];
 
 
-console.log(allGuesses)
+console.log('Submitted today:', allGuesses)
 
 // Check if today's game done
 function checkToday() {
 
-  if (currentDayNumber > previousGameNumber && doneToday == 'false') { // different day, reset game
+  if (currentDayNumber > previousGameNumber || allGuesses.length === 0) { // different day, reset game
     console.log('Start fresh today!')
+    // Set previousgamedate to today
+    localStorage.setItem('previousgamedate', currentDate)
     resetBoard();
     startGame();
     return;
-  } else if (currentDayNumber === previousGameNumber && doneToday == 'false') { // same day, continuance, load game
+  } else if (currentDayNumber === previousGameNumber && allGuesses.length > 0 && doneToday == 'false') { // same day, continuance, load game
     allGuesses.forEach((stored, i) => {
       currentGuessRow = i;
       currentGuess = stored.split('');
@@ -139,10 +141,6 @@ function checkToday() {
     console.log('No more tries left! Try again tomorrow.')
     return;
   } else if (currentDayNumber === previousGameNumber && doneToday == 'true' && success == 'true') { // same day, game done, success
-    
-    console.log(success)
-    console.log(doneToday)
-    
     allGuesses.forEach((stored, i) => {
       currentGuessRow = i;
       currentGuess = stored.split('');
@@ -209,7 +207,7 @@ function resetBoard() {
   correctKeys = [];
   success = 'false';
   localStorage.setItem('success', success);
-  doneToday = false;
+  doneToday = 'false';
   localStorage.setItem('donetoday', doneToday);
 
   guessBoxes.forEach((box) => {
@@ -294,7 +292,7 @@ function checkGuess() {
     //// SUCCESS - show success notification
     success = 'true';
     localStorage.setItem('success', success);
-    doneToday = true;
+    doneToday = 'true';
     localStorage.setItem('donetoday', doneToday);
     notifCentre('success');
     return;
@@ -314,7 +312,7 @@ function checkGuess() {
     //// FAIL
     success = 'false';
     localStorage.setItem('success', success);
-    doneToday = true;
+    doneToday = 'true';
     localStorage.setItem('donetoday', doneToday);
     notifCentre('fail');
     return;
