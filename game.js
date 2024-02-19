@@ -21,6 +21,7 @@ if (localStorage.getItem('validkeys')) {
 }
 
 // Set version to allow clearing of previous localStorage data
+// v0.01 - allguesses, answer, donetoday, success, version
 localStorage.setItem('version', '0.01');
 
 // Hide everything, wait until loaded
@@ -96,8 +97,8 @@ loadData();
 let rawAllGuesses = localStorage.getItem('allguesses') || [];
 let allGuesses = (rawAllGuesses.length > 0) ? rawAllGuesses.split(',') : [];
 let usedKeys = localStorage.getItem('usedkeys') || [];
-let success = localStorage.getItem('success') || false;
-let doneToday = localStorage.getItem('donetoday') || false;
+let success = localStorage.getItem('success') || 'false';
+let doneToday = localStorage.getItem('donetoday') || 'false';
 
 let currentGuessRow = rawAllGuesses.length;
 let currentGuess = rawAllGuesses[-1] || [];
@@ -106,45 +107,57 @@ let currentGuess = rawAllGuesses[-1] || [];
 console.log(allGuesses)
 
 // Check if today's game done
+function checkToday() {
 
-// New day, not done yet
-if (currentDayNumber > previousGameNumber && !doneToday) { // different day, reset game
-  resetBoard();
-  startGame();
-  console.log('Start fresh today!')
-} else if (currentDayNumber === previousGameNumber && !doneToday) { // same day, continuance, load game
-  allGuesses.forEach((stored, i) => {
-    currentGuessRow = i;
-    currentGuess = stored.split('');
-    showChar();
-    checkGuess(stored);
-    styleCurrentRow();
-    styleKeys();
-  });
-  startGame();
-  console.log('Not quite finished yet. Continue playing!')
-} else if (currentDayNumber === previousGameNumber && doneToday && !success) { // same day, game done, failed
-  allGuesses.forEach((stored, i) => {
-    currentGuessRow = i;
-    currentGuess = stored.split('');
-    showChar();
-    checkGuess(stored);
-    styleCurrentRow();
-    styleKeys();
-  });
-  notifCentre('fail');
-} else if (currentDayNumber === previousGameNumber && doneToday && success) { // same day, game done, success
-  allGuesses.forEach((stored, i) => {
-    currentGuessRow = i;
-    currentGuess = stored.split('');
-    showChar();
-    checkGuess(stored);
-    styleCurrentRow();
-    styleKeys();
-  });
-  notifCentre('success');
-  console.log('Puzzle already guessed. Come back tomorrow.')  
+  if (currentDayNumber > previousGameNumber && doneToday == 'false') { // different day, reset game
+    console.log('Start fresh today!')
+    resetBoard();
+    startGame();
+    return;
+  } else if (currentDayNumber === previousGameNumber && doneToday == 'false') { // same day, continuance, load game
+    allGuesses.forEach((stored, i) => {
+      currentGuessRow = i;
+      currentGuess = stored.split('');
+      showChar();
+      checkGuess(stored);
+      styleCurrentRow();
+      styleKeys();
+    });
+    startGame();
+    console.log('Not quite finished yet. Continue playing!');
+    return;
+  } else if (currentDayNumber === previousGameNumber && doneToday == 'true' && success == 'false') { // same day, game done, failed
+    allGuesses.forEach((stored, i) => {
+      currentGuessRow = i;
+      currentGuess = stored.split('');
+      showChar();
+      checkGuess(stored);
+      styleCurrentRow();
+      styleKeys();
+    });
+    notifCentre('fail');
+    console.log('No more tries left! Try again tomorrow.')
+    return;
+  } else if (currentDayNumber === previousGameNumber && doneToday == 'true' && success == 'true') { // same day, game done, success
+    
+    console.log(success)
+    console.log(doneToday)
+    
+    allGuesses.forEach((stored, i) => {
+      currentGuessRow = i;
+      currentGuess = stored.split('');
+      showChar();
+      checkGuess(stored);
+      styleCurrentRow();
+      styleKeys();
+    });
+    notifCentre('success');
+    console.log('Puzzle already guessed. Come back tomorrow.')  
+    return;
+  } else "Something's wrong.";
 }
+checkToday();
+
 
 
 // Print each letter iput
@@ -194,7 +207,7 @@ function resetBoard() {
   allGuesses = [];
   usedKeys = [];
   correctKeys = [];
-  success = false;
+  success = 'false';
   localStorage.setItem('success', success);
   doneToday = false;
   localStorage.setItem('donetoday', doneToday);
@@ -232,16 +245,9 @@ function notifCentre(message) {
     notifImage.src = './winner.png';
     notifButton.classList.add('hide');
     notifMessage.innerHTML = "You guessed today's word in " + ((currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!") + " Come back tomorrow." );
-    success = true;
-    localStorage.setItem('success', success);
-    doneToday = true;
-    localStorage.setItem('donetoday', doneToday);
   } else if (message == 'fail') {
+    notifImage.src = './wrong.png';
     notifMessage.textContent = "Sorry, you have no more tries left! Come back tomorrow.";
-    success = false;
-    localStorage.setItem('success', success);
-    doneToday = true;
-    localStorage.setItem('donetoday', doneToday);
 
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');
@@ -263,11 +269,11 @@ function notifCentre(message) {
 function checkGuess() {
   
   //// Counter for number of correct letters
-  let correctGuesses = 0;
+  let correctChars = 0;
   
   const answeredBoxes = guessRows[currentGuessRow].querySelectorAll('.char');
 
-  answerArray.forEach((ans, j) => {
+  answerArray.forEach((char, j) => {
 
     ////// Check if letter is included in the answer
     if (answerArray.includes(answeredBoxes[j].textContent)) {
@@ -275,21 +281,28 @@ function checkGuess() {
     }
     
     ////// Check if letter matches to answer
-    if (ans == answeredBoxes[j].textContent) {
+    if (char == answeredBoxes[j].textContent) {
       answeredBoxes[j].classList.add('correct');
-      correctGuesses++;
-    } else if (ans != answeredBoxes[j].textContent) {
+      correctChars++;
+    } else if (char != answeredBoxes[j].textContent) {
       answeredBoxes[j].classList.add('wrong');
     } 
   })
 
   // Check if all 5 letters are correct
-  if (correctGuesses === 5) {
+  if (correctChars === 5) {
     //// SUCCESS - show success notification
+    success = 'true';
+    localStorage.setItem('success', success);
+    doneToday = true;
+    localStorage.setItem('donetoday', doneToday);
     notifCentre('success');
+    return;
   } else {
     //// Not all letter are correct, move to next row
-    currentGuessRow++;
+    if(currentGuessRow < 6) {
+      currentGuessRow++;
+    }
     //// Highlight next row
     styleCurrentRow();
     //// Empty your guess array
@@ -299,7 +312,12 @@ function checkGuess() {
   // Check if currentGuessRow is 6 (game over)
   if (currentGuessRow >= 6) {
     //// FAIL
+    success = 'false';
+    localStorage.setItem('success', success);
+    doneToday = true;
+    localStorage.setItem('donetoday', doneToday);
     notifCentre('fail');
+    return;
   }
 
 } // checkGuess() //
