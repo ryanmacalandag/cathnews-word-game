@@ -16,14 +16,14 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 'Y', 'Z' ]
 
 // Clear old data!!!
-if (localStorage.getItem('validkeys') || localStorage.getItem('version') === '0.01') {
+if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.03') {
   localStorage.clear();
   console.log('Old storage cleared!');
 }
 
 // Set version to allow clearing of previous localStorage data
 // v0.02 - allguesses, answer, donetoday, success, version, previousgamedate
-localStorage.setItem('version', '0.02');
+localStorage.setItem('version', '0.03');
 
 // Hide everything, wait until loaded
 let domReady = (cb) => {
@@ -202,9 +202,12 @@ function resetBoard() {
 
   currentGuessRow = 0;
   currentGuess = [];
-  allGuesses = [];
   usedKeys = [];
   correctKeys = [];
+
+  // set localstorage to default
+  allGuesses = [];
+  localStorage.setItem('allguesses', allGuesses);
   success = 'false';
   localStorage.setItem('success', success);
   doneToday = 'false';
