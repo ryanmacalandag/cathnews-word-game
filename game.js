@@ -238,6 +238,18 @@ function validateGuess(guess) {
 
 
 
+// Share button
+const shareFB = document.querySelector('#share-fb');
+
+const thisURL = window.location.href;
+const FBlink = "https://www.facebook.com/share.php?u=" + encodeURIComponent(thisURL);
+
+shareFB.addEventListener('click', (e) => {
+  window.open(FBlink);
+})
+
+
+
 // Handle notifs
 function notifCentre(message) {
 
@@ -245,8 +257,10 @@ function notifCentre(message) {
     notif.classList.remove('hide');
     notifImage.src = './winner1.png';
     notifButton.classList.add('hide');
+    shareFB.classList.remove('hide');
     notifMessage.innerHTML = "Congrats! You guessed today's Bible word in " + ((currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!") + " Come back tomorrow." );
   } else if (message == 'fail') {
+    shareFB.classList.add('hide');
     notifImage.src = './wrong1.png';
     notifMessage.textContent = "Sorry, you have no more tries left! Come back tomorrow.";
 
