@@ -459,6 +459,10 @@ header {
   align-items: center;
 }
 
+.dark #notif {
+  background-color: var(--clr-primary-dark);
+}
+
 #notif img {
   flex-grow: 0;
 }
