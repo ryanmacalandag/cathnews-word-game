@@ -37,6 +37,20 @@ domReady(() => {
   document.body.classList.remove('hide');
 });
 
+// Share button
+const shareFB = document.querySelector('#share-fb');
+
+const thisURL = window.location.href;
+const FBlink = "https://www.facebook.com/share.php?u=" + encodeURIComponent(thisURL);
+
+shareFB.addEventListener('click', (e) => {
+  window.open(FBlink);
+})
+
+
+
+
+
 let answerKey = [];
 let validWords = [];
 
@@ -235,19 +249,6 @@ function resetBoard() {
 function validateGuess(guess) {
   return validWords.includes(guess);
 }
-
-
-
-// Share button
-const shareFB = document.querySelector('#share-fb');
-
-const thisURL = window.location.href;
-const FBlink = "https://www.facebook.com/share.php?u=" + encodeURIComponent(thisURL);
-
-shareFB.addEventListener('click', (e) => {
-  window.open(FBlink);
-})
-
 
 
 // Handle notifs
