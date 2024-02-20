@@ -89,7 +89,7 @@ body.dark {
   background-image: none;
 }
 
-.hide {
+body.hide {
   display: none;
 }
 
@@ -521,4 +521,8 @@ header {
 
 #notif #share-fb:hover {
   background-color: #445ce3;
+}
+
+#notif #share-fb.hide {
+  display: none;
 }
