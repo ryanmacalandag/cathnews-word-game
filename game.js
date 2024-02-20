@@ -243,11 +243,11 @@ function notifCentre(message) {
 
   if (message == 'success') {
     notif.classList.remove('hide');
-    notifImage.src = './winner.png';
+    notifImage.src = './winner1.png';
     notifButton.classList.add('hide');
-    notifMessage.innerHTML = "You guessed today's word in " + ((currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!") + " Come back tomorrow." );
+    notifMessage.innerHTML = "Congrats! You guessed today's Bible word in " + ((currentGuessRow + 1) + ((currentGuessRow > 0) ? " tries!" : " try!") + " Come back tomorrow." );
   } else if (message == 'fail') {
-    notifImage.src = './wrong.png';
+    notifImage.src = './wrong1.png';
     notifMessage.textContent = "Sorry, you have no more tries left! Come back tomorrow.";
 
     notifButton.addEventListener('click', () => {
@@ -256,7 +256,7 @@ function notifCentre(message) {
     })
     notif.classList.remove('hide');
   } else if (message == 'invalid') {
-    notifImage.src = './wrong.png';
+    notifImage.src = './wrong1.png';
     notifMessage.textContent = "Invalid word is not in the dictionary!";
     notifButton.addEventListener('click', () => {
       notif.classList.add('hide');

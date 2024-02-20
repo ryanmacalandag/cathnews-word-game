@@ -89,7 +89,7 @@ body.dark {
   background-image: none;
 }
 
-body.hide {
+.hide {
   display: none;
 }
 
@@ -214,6 +214,10 @@ header {
 
 #drawer .settings h3 {
   margin-bottom: .85em;
+}
+
+#drawer p {
+  margin-bottom: .4 5em;
 }
 
 .settings .option {
@@ -470,7 +474,7 @@ header {
 #notif .message-container {
   display: flex;
   flex-direction: column;
-  padding-right: 2rem;
+  padding-right: 1rem;
 }
 
 #notif p {
@@ -497,4 +501,24 @@ header {
 
 #notif button.hide {
   display: none;
+}
+
+#notif #share-fb, #notif #share-fb:active {
+  margin-top: 12px;
+  padding: 7px 10px;
+  background-color: #3447ae;
+  font-size: .8rem;
+  width: fit-content;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 300ms;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px
+}
+
+#notif #share-fb:hover {
+  background-color: #445ce3;
 }
