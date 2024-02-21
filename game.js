@@ -48,9 +48,6 @@ shareFB.addEventListener('click', (e) => {
 })
 
 
-
-
-
 let answerKey = [];
 let validWords = [];
 
@@ -60,13 +57,13 @@ let currentDate = Date.now();
 
 // Set previous game date
 let previousGameDate = localStorage.getItem('previousgamedate') || currentDate;
-let previousGameNumber = Math.floor((previousGameDate - _STARTDATE) / (365 * 24 * 60 * 60));
+let previousGameNumber = Math.ceil((previousGameDate - _STARTDATE) / (24 * 60 * 60 * 1000));
 
 // Today's hidden word
-let currentDayNumber = Math.floor((currentDate - _STARTDATE) / (365 * 24 * 60 * 60));
+let currentDayNumber = Math.ceil((currentDate - _STARTDATE) / (24 * 60 * 60 * 1000));
 let answer = localStorage.getItem('answer') || "";
 let answerArray = answer.split('');
-
+ß
 console.log('Not the answer:', answer)
 
 // Load answer key and valid words from json files
