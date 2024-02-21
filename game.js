@@ -63,7 +63,7 @@ let previousGameNumber = Math.ceil((previousGameDate - _STARTDATE) / (24 * 60 * 
 let currentDayNumber = Math.ceil((currentDate - _STARTDATE) / (24 * 60 * 60 * 1000));
 let answer = localStorage.getItem('answer') || "";
 let answerArray = answer.split('');
-ß
+
 console.log('Not the answer:', answer)
 
 // Load answer key and valid words from json files
