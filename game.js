@@ -16,14 +16,14 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 'Y', 'Z' ]
 
 // Clear old data!!!
-if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.03') {
+if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.04') {
   localStorage.clear();
   console.log('Old storage cleared!');
 }
 
 // Set version to allow clearing of previous localStorage data
 // v0.02 - allguesses, answer, donetoday, success, version, previousgamedate
-localStorage.setItem('version', '0.03');
+localStorage.setItem('version', '0.04');
 
 // Hide everything, wait until loaded
 let domReady = (cb) => {
@@ -52,19 +52,19 @@ let answerKey = [];
 let validWords = [];
 
 // Dates
-let _STARTDATE = new Date('2024-02-17');
+let _STARTDATE = new Date('2024-02-17T00:00:00'); //1995-12-17T03:24:00
 let currentDate = Date.now();
 
 // Set previous game date
 let previousGameDate = localStorage.getItem('previousgamedate') || currentDate;
-let previousGameNumber = Math.ceil((previousGameDate - _STARTDATE) / (24 * 60 * 60 * 1000));
+let previousGameNumber = Math.floor((previousGameDate - _STARTDATE) / (24 * 60 * 60 * 1000));
 
 // Today's hidden word
-let currentDayNumber = Math.ceil((currentDate - _STARTDATE) / (24 * 60 * 60 * 1000));
+let currentDayNumber = Math.floor((currentDate - _STARTDATE) / (24 * 60 * 60 * 1000));
 let answer = localStorage.getItem('answer') || "";
 let answerArray = answer.split('');
 
-console.log('Not the answer:', answer)
+console.log('Answer from storage:', answer)
 
 // Load answer key and valid words from json files
 
@@ -92,6 +92,9 @@ function loadData() {
   async function fetchValid() {
     const response = await fetch('./valid-words.json');
     const data = await response.json();
+
+    console.log('Answer from fetched JSON:', answer)
+
     return data;
   }
 
