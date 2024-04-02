@@ -17,14 +17,16 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 
 // Clear old data!!!
 // validkeys is an old storage variable
-if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.05') {
+if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.07') {
   localStorage.clear();
   console.log('Old storage cleared!');
 }
 
 // Set version to allow clearing of previous localStorage data
 // v0.02 - allguesses, answer, donetoday, success, version, previousgamedate
-localStorage.setItem('version', '0.05');
+// v0.06 - updated logic, clear stored guesses
+// v0.07 - updated answerkey
+localStorage.setItem('version', '0.07');
 
 // Hide everything, wait until loaded
 let domReady = (cb) => {
@@ -84,6 +86,8 @@ function loadData() {
     localStorage.setItem('answer', answerToday);
     answer = answerToday;
     answerArray = answerToday.split('');
+
+    console.log('Answer from storage:', answer)
   })
 
   // fetch valid-words.json
@@ -169,7 +173,7 @@ function checkToday() {
 }
 checkToday();
 
-console.log('Answer from storage:', answer)
+
 console.log('Submitted today:', allGuesses)
 
 
