@@ -16,14 +16,15 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 'Y', 'Z' ]
 
 // Clear old data!!!
-if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.04') {
+// validkeys is an old storage variable
+if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.05') {
   localStorage.clear();
   console.log('Old storage cleared!');
 }
 
 // Set version to allow clearing of previous localStorage data
 // v0.02 - allguesses, answer, donetoday, success, version, previousgamedate
-localStorage.setItem('version', '0.04');
+localStorage.setItem('version', '0.05');
 
 // Hide everything, wait until loaded
 let domReady = (cb) => {
@@ -47,12 +48,11 @@ shareFB.addEventListener('click', (e) => {
   window.open(FBlink);
 })
 
-
 let answerKey = [];
 let validWords = [];
 
 // Dates
-let _STARTDATE = new Date('2024-02-17T00:00:00'); //1995-12-17T03:24:00
+let _STARTDATE = new Date('2024-04-03T00:00:00'); //1995-12-17T03:24:00
 let currentDate = Date.now();
 
 // Set previous game date
@@ -63,8 +63,6 @@ let previousGameNumber = Math.floor((previousGameDate - _STARTDATE) / (24 * 60 *
 let currentDayNumber = Math.floor((currentDate - _STARTDATE) / (24 * 60 * 60 * 1000));
 let answer = localStorage.getItem('answer') || "";
 let answerArray = answer.split('');
-
-console.log('Answer from storage:', answer)
 
 // Load answer key and valid words from json files
 
@@ -117,16 +115,17 @@ let doneToday = localStorage.getItem('donetoday') || 'false';
 let currentGuessRow = rawAllGuesses.length;
 let currentGuess = rawAllGuesses[-1] || [];
 
-
-console.log('Submitted today:', allGuesses)
-
 // Check if today's game done
 function checkToday() {
 
-  if (currentDayNumber > previousGameNumber || allGuesses.length === 0) { // different day, reset game
+  if (currentDayNumber > previousGameNumber || allGuesses.length === 0) { // different day, reset game, reset previous guesses
     console.log('Start fresh today!')
     // Set previousgamedate to today
     localStorage.setItem('previousgamedate', currentDate)
+    
+    // Clear rawAllGuesses allguesses
+    let rawAllGuesses = []
+    localStorage.setItem('allguesses', rawAllGuesses)
     resetBoard();
     startGame();
     return;
@@ -169,6 +168,9 @@ function checkToday() {
   } else "Something's wrong.";
 }
 checkToday();
+
+console.log('Answer from storage:', answer)
+console.log('Submitted today:', allGuesses)
 
 
 
