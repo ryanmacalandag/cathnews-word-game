@@ -13,7 +13,7 @@
   --fnt-headings: "Roboto Condensed", sans-serif;
   --fnt-body: "Roboto Condensed", sans-serif;
 
-  --clr-primary: hsl(176, 70%, 33%);
+  --clr-primary: #00a99d;
   --clr-primary-light: hsl(176, 20%, 58%);
   --clr-primary-lighter: hsl(175, 10%, 80%);
   --clr-primary-lightest: hsl(173, 10%, 90%);
@@ -185,26 +185,22 @@ header {
   display: grid;
   grid-template-rows: 0rem;
   transition: 300ms;
-}
-
-#drawer.open {
-  grid-template-rows: 12em;
-}
-
-#drawer .inner {
-  padding: 1.85em 1.5em 1.35em;
-  display: none;
-  transition: .2s;
   overflow: hidden;
 }
 
-#drawer.open .inner {
+#drawer.open {
+  grid-template-rows: 15em;
+}
+
+#drawer .inner {
   display: flex;
   gap: 1.35em;
+  padding: 1.85em 1.5em 1.35em;
+  transition: .2s;
 }
 
 #drawer .inner > div {
-  padding-right: 4rem;
+  padding-right: 2rem;
   flex: 1;
 }
 
@@ -215,6 +211,17 @@ header {
 #drawer .settings h3 {
   margin-bottom: .85em;
 }
+
+#drawer .about .cathnews-logo {
+  width: 220px;
+  padding-top: 0rem;
+}
+
+#drawer .about .cathnews-logo img  {
+  width: 100%;
+  height: auto;
+}
+
 
 #drawer p {
   margin-bottom: .4 5em;
@@ -259,13 +266,18 @@ header {
 @media (max-width: 720px) {
 
   #drawer.open {
-    grid-template-rows: 22em;
+    grid-template-rows: 23em;
   }
 
   #drawer .inner {
     font-size: .85rem;
     flex-direction: column;
-    gap: 1em;
+    gap: 3em;
+  }
+
+  #drawer .about .cathnews-logo {
+    width: 200px;
+    padding-top: 1rem;
   }
 
 }

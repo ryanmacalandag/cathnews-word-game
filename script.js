@@ -2,9 +2,11 @@ const cog = document.querySelector('.cog-button');
 const drawer = document.querySelector('#drawer');
 const darkToggle = document.querySelector('.dark-toggle');
 const body = document.querySelector('body');
+const inner = document.querySelector('#drawer-inner');
 
 cog.addEventListener('click', (e) => {
   drawer.classList.toggle('open');
+  drawer.style.gridTemplateRows = inner.style.offsetHeight;
 });
 
 darkToggle.addEventListener('click', (e) => {
