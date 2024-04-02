@@ -194,10 +194,12 @@ header {
   transition: 300ms;
   overflow: hidden;
   font-family: var(--fnt-menu);
+  height: 0;
+  padding-bottom: 0rem;
 }
 
 #drawer.open {
-  height: 0;
+  height: auto;
   padding-bottom: 0rem;
 }
 

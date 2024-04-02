@@ -6,7 +6,6 @@ const inner = document.querySelector('#drawer-inner');
 
 cog.addEventListener('click', (e) => {
   drawer.classList.toggle('open');
-  drawer.style.gridTemplateRows = inner.style.offsetHeight;
 });
 
 darkToggle.addEventListener('click', (e) => {
