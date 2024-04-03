@@ -116,8 +116,8 @@ let usedKeys = localStorage.getItem('usedkeys') || [];
 let success = localStorage.getItem('success') || 'false';
 let doneToday = localStorage.getItem('donetoday') || 'false';
 
-let currentGuessRow = rawAllGuesses.length;
-let currentGuess = rawAllGuesses[-1] || [];
+let currentGuessRow = allGuesses.length;
+let currentGuess = allGuesses[0].split('') || [];
 
 // Check if today's game done
 function checkToday() {
@@ -126,10 +126,6 @@ function checkToday() {
     console.log('Start fresh today!')
     // Set previousgamedate to today
     localStorage.setItem('previousgamedate', currentDate)
-    
-    // Clear rawAllGuesses allguesses
-    let rawAllGuesses = []
-    localStorage.setItem('allguesses', rawAllGuesses)
     resetBoard();
     startGame();
     return;
@@ -137,10 +133,11 @@ function checkToday() {
     allGuesses.forEach((stored, i) => {
       currentGuessRow = i;
       currentGuess = stored.split('');
+      console.log(currentGuess)
+      styleKeys();
       showChar();
       checkGuess(stored);
       styleCurrentRow();
-      styleKeys();
     });
     startGame();
     console.log('Not quite finished yet. Continue playing!');
@@ -149,10 +146,10 @@ function checkToday() {
     allGuesses.forEach((stored, i) => {
       currentGuessRow = i;
       currentGuess = stored.split('');
+      styleKeys();
       showChar();
       checkGuess(stored);
       styleCurrentRow();
-      styleKeys();
     });
     notifCentre('fail');
     console.log('No more tries left! Try again tomorrow.')
@@ -161,10 +158,10 @@ function checkToday() {
     allGuesses.forEach((stored, i) => {
       currentGuessRow = i;
       currentGuess = stored.split('');
+      styleKeys();
       showChar();
       checkGuess(stored);
       styleCurrentRow();
-      styleKeys();
     });
     notifCentre('success');
     console.log('Puzzle already guessed. Come back tomorrow.')  
@@ -199,6 +196,10 @@ function styleCurrentRow() {
 
 // Style used keys based on currentguess array
 function styleKeys() {
+
+
+  console.log(currentGuess)
+
   //// Go through currentGuess array
   currentGuess.forEach((char) => {
     if (!(usedKeys.includes(char))) {
@@ -226,8 +227,9 @@ function resetBoard() {
   correctKeys = [];
 
   // set localstorage to default
-  allGuesses = [];
-  localStorage.setItem('allguesses', allGuesses);
+  // Clear rawAllGuesses allguesses
+  rawAllGuesses = []
+  localStorage.setItem('allguesses', rawAllGuesses)
   success = 'false';
   localStorage.setItem('success', success);
   doneToday = 'false';
