@@ -117,7 +117,7 @@ let success = localStorage.getItem('success') || 'false';
 let doneToday = localStorage.getItem('donetoday') || 'false';
 
 let currentGuessRow = allGuesses.length;
-let currentGuess = allGuesses[0].split('') || [];
+let currentGuess = currentGuessRow > 0 ? allGuesses[0].split('') : [];
 
 // Check if today's game done
 function checkToday() {
@@ -133,7 +133,6 @@ function checkToday() {
     allGuesses.forEach((stored, i) => {
       currentGuessRow = i;
       currentGuess = stored.split('');
-      console.log(currentGuess)
       styleKeys();
       showChar();
       checkGuess(stored);
@@ -196,9 +195,6 @@ function styleCurrentRow() {
 
 // Style used keys based on currentguess array
 function styleKeys() {
-
-
-  console.log(currentGuess)
 
   //// Go through currentGuess array
   currentGuess.forEach((char) => {
