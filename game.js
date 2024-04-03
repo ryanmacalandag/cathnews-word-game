@@ -17,7 +17,7 @@ const validKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 
 // Clear old data!!!
 // validkeys is an old storage variable
-if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.07') {
+if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.08') {
   localStorage.clear();
   console.log('Old storage cleared!');
 }
@@ -26,7 +26,7 @@ if (localStorage.getItem('validkeys') || localStorage.getItem('version') !== '0.
 // v0.02 - allguesses, answer, donetoday, success, version, previousgamedate
 // v0.06 - updated logic, clear stored guesses
 // v0.07 - updated answerkey
-localStorage.setItem('version', '0.07');
+localStorage.setItem('version', '0.08');
 
 // Hide everything, wait until loaded
 let domReady = (cb) => {
